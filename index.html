@@ -7,175 +7,293 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PensionDLT">
-<meta name="theme-color" content="#0f1520">
+<meta name="theme-color" content="#080d18">
 <title>PensionDLT</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{background:#0f1520}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  background-color:#0f1520;color:#e2e8f0;min-height:100vh;min-height:100dvh;
-  overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
-}
-.app{position:relative;padding-bottom:90px;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+html{background:#080d18}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#080d18;color:#e2e8f0;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+.app{position:relative;padding-bottom:92px;padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))}
+
+/* === ONBOARDING SPLASH === */
+.splash{position:fixed;inset:0;z-index:99999;background:#080d18;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,transform .6s;pointer-events:all}
+.splash.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+.splash-logo{font-size:42px;font-weight:800;color:#fff;letter-spacing:-1.5px;margin-bottom:4px}
+.splash-logo b{color:#60a5fa}
+.splash-sub{font-size:14px;color:#64748b;margin-bottom:32px;text-align:center;max-width:260px;line-height:1.5}
+.splash-rings{position:relative;width:160px;height:160px;margin-bottom:40px}
+.splash-ring{position:absolute;border-radius:50%;border:2px solid transparent;animation:spinRing linear infinite}
+.splash-ring:nth-child(1){inset:0;border-top-color:#60a5fa;animation-duration:3s}
+.splash-ring:nth-child(2){inset:15px;border-right-color:#a78bfa;animation-duration:2.5s;animation-direction:reverse}
+.splash-ring:nth-child(3){inset:30px;border-bottom-color:#34d399;animation-duration:2s}
+.splash-core{position:absolute;inset:45px;background:radial-gradient(circle,rgba(96,165,250,.15),transparent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+@keyframes spinRing{to{transform:rotate(360deg)}}
+.splash-enter{padding:14px 40px;background:linear-gradient(135deg,#3b82f6,#6366f1);border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s}
+.splash-enter:active{transform:scale(.95)}
+.splash-hint{font-size:11px;color:#475569;margin-top:16px}
+
+/* === GLOBAL ELEMENTS === */
 .hdr{padding:60px 20px 14px;padding-top:calc(env(safe-area-inset-top,44px) + 12px);display:flex;justify-content:space-between;align-items:center}
-.hdr h1{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px}
-.hdr h1 b{color:#60a5fa;font-weight:700}
-.hdr p{font-size:13px;color:#94a3b8;margin-top:2px}
-.hdr-r{display:flex;gap:10px;align-items:center}
-.hdr-btn{width:40px;height:40px;border-radius:12px;background:#1e293b;border:1px solid #334155;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.hdr-btn svg{width:20px;height:20px;color:#94a3b8}
-.avatar{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
-.card{margin:0 16px 16px;padding:20px;background:#1e293b;border:1px solid #334155;border-radius:16px}
-.status-bar{margin:0 16px 16px;padding:12px 16px;background:#1a2744;border:1px solid #2d4a7a;border-radius:14px;display:flex;align-items:center;gap:12px}
-.pulse-dot{width:10px;height:10px;background:#34d399;border-radius:50%;box-shadow:0 0 8px #34d399;flex-shrink:0;animation:glow 2s infinite}
-@keyframes glow{0%,100%{opacity:1;box-shadow:0 0 8px #34d399}50%{opacity:.6;box-shadow:0 0 16px #34d399}}
-.status-bar span{font-size:13px;color:#94a3b8;line-height:1.4}
-.status-bar strong{color:#e2e8f0}
-.port-label{font-size:13px;color:#94a3b8;margin-bottom:6px}
-.port-val{font-size:36px;font-weight:700;color:#fff;letter-spacing:-1.5px;margin-bottom:6px;font-variant-numeric:tabular-nums}
-.port-chg{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#34d399;background:rgba(52,211,153,.12);padding:4px 12px;border-radius:20px;margin-bottom:16px}
-.spark{height:50px;margin:8px 0 16px;width:100%}
-.port-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-top:16px;border-top:1px solid #334155}
-.port-grid-item{text-align:center}
-.port-grid-item .lbl{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.port-grid-item .val{font-size:15px;font-weight:700;color:#e2e8f0;font-variant-numeric:tabular-nums}
-.pyr-title{font-size:15px;font-weight:700;color:#e2e8f0;margin-bottom:14px}
-.pyr-title span{font-size:11px;color:#64748b;font-weight:400;text-transform:uppercase;letter-spacing:1px;margin-left:8px}
-.pyr-layer{margin:0 auto 6px;padding:14px;border-radius:12px;text-align:center;cursor:pointer;transition:transform .2s}
-.pyr-layer:active{transform:scale(.97)}
-.pyr-gui{width:60%;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3)}
-.pyr-bpl{width:80%;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3)}
-.pyr-bta{width:100%;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3)}
-.pyr-layer .ln{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
-.pyr-gui .ln{color:#60a5fa}.pyr-bpl .ln{color:#a78bfa}.pyr-bta .ln{color:#34d399}
-.pyr-layer .ld{font-size:11px;color:#94a3b8;margin-top:2px}
-.pyr-bridge{text-align:center;padding:3px 0;font-size:10px;color:#475569;letter-spacing:1px}
+.hdr h1{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.hdr h1 b{color:#60a5fa;font-weight:800}
+.hdr p{font-size:12px;color:#64748b;margin-top:2px}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.hdr-btn{width:38px;height:38px;border-radius:12px;background:rgba(30,41,59,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(51,65,85,.6);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hdr-btn svg{width:18px;height:18px;color:#94a3b8}
+.avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+
+.card{margin:0 16px 14px;padding:18px;background:rgba(30,41,59,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(51,65,85,.5);border-radius:18px;position:relative;overflow:hidden}
+.card::before{content:’’;position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.2),transparent)}
+
 .sec{padding:0 16px;margin-bottom:20px}
-.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sec-title{font-size:16px;font-weight:700;color:#e2e8f0}
-.sec-link{font-size:13px;color:#60a5fa;font-weight:500;cursor:pointer}
-.list-item{padding:14px;background:#1e293b;border:1px solid #334155;border-radius:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer}
-.list-item:active{background:#263348}
-.li-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.li-icon.blue{background:rgba(96,165,250,.15)}.li-icon.orange{background:rgba(251,146,60,.15)}.li-icon.purple{background:rgba(139,92,246,.15)}.li-icon.green{background:rgba(52,211,153,.15)}.li-icon.red{background:rgba(248,113,113,.15)}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sec-title{font-size:15px;font-weight:700;color:#e2e8f0}
+.sec-link{font-size:12px;color:#60a5fa;font-weight:600;cursor:pointer}
+
+/* === LIVE CHAIN TICKER === */
+.chain-ticker{margin:0 16px 14px;padding:10px 14px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:12px;display:flex;align-items:center;gap:10px;overflow:hidden}
+.chain-ticker .pulse{width:8px;height:8px;background:#34d399;border-radius:50%;box-shadow:0 0 8px #34d399;flex-shrink:0;animation:glow 2s infinite}
+@keyframes glow{0%,100%{opacity:1}50%{opacity:.5}}
+.chain-blocks{display:flex;gap:6px;overflow:hidden;flex:1}
+.chain-block{padding:4px 10px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:6px;font-size:10px;font-weight:700;color:#60a5fa;white-space:nowrap;flex-shrink:0;animation:slideIn .5s ease;font-family:monospace}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.chain-meta{font-size:10px;color:#475569;flex-shrink:0;white-space:nowrap}
+
+/* === PORTFOLIO === */
+.port-label{font-size:12px;color:#64748b;margin-bottom:4px;letter-spacing:.3px}
+.port-val{font-size:38px;font-weight:800;color:#fff;letter-spacing:-2px;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.port-chg{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:#34d399;background:rgba(52,211,153,.1);padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.spark{height:55px;margin:4px 0 14px;width:100%;display:block}
+.port-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding-top:14px;border-top:1px solid rgba(51,65,85,.5)}
+.port-grid-item{text-align:center}
+.port-grid-item .lbl{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.port-grid-item .val{font-size:14px;font-weight:700;color:#e2e8f0;font-variant-numeric:tabular-nums}
+
+/* === LEAD TIME COMPARISON === */
+.leadtime{margin:0 16px 14px;padding:18px;background:rgba(30,41,59,.6);border:1px solid rgba(51,65,85,.5);border-radius:18px}
+.leadtime-title{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.leadtime-title span{font-size:10px;color:#475569;font-weight:400;text-transform:uppercase;letter-spacing:.8px}
+.lt-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.lt-label{width:54px;font-size:11px;font-weight:700;color:#94a3b8;flex-shrink:0}
+.lt-bar-wrap{flex:1;height:28px;background:rgba(15,21,32,.6);border-radius:8px;overflow:hidden;position:relative}
+.lt-bar{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:700;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.lt-bar.legacy{background:linear-gradient(90deg,#dc2626,#f87171);color:#fff;width:0}
+.lt-bar.legacy.animate{width:100%}
+.lt-bar.dlt{background:linear-gradient(90deg,#059669,#34d399);color:#fff;width:0}
+.lt-bar.dlt.animate{width:6%}
+.lt-detail{font-size:10px;color:#475569;text-align:center;margin-top:4px}
+.lt-savings{text-align:center;margin-top:10px;padding:10px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:10px}
+.lt-savings .big{font-size:28px;font-weight:800;color:#34d399;font-variant-numeric:tabular-nums}
+.lt-savings .sub{font-size:11px;color:#94a3b8;margin-top:2px}
+
+/* === CAREER TIMELINE === */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:’’;position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,#60a5fa,#a78bfa,#34d399)}
+.tl-item{position:relative;margin-bottom:16px;padding:14px;background:rgba(30,41,59,.6);border:1px solid rgba(51,65,85,.5);border-radius:14px}
+.tl-item::before{content:’’;position:absolute;left:-21px;top:18px;width:12px;height:12px;border-radius:50%;border:2px solid;background:#080d18}
+.tl-item:nth-child(1)::before{border-color:#60a5fa}
+.tl-item:nth-child(2)::before{border-color:#a78bfa}
+.tl-item:nth-child(3)::before{border-color:#34d399}
+.tl-item .tl-date{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.tl-item .tl-title{font-size:14px;font-weight:700;color:#e2e8f0}
+.tl-item .tl-sub{font-size:12px;color:#64748b;margin-top:2px}
+.tl-item .tl-amt{font-size:13px;font-weight:700;color:#34d399;margin-top:6px;font-variant-numeric:tabular-nums}
+.tl-transfer{position:absolute;left:-28px;top:50%;transform:translateY(-50%);background:#a78bfa;color:#fff;font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:.5px;white-space:nowrap}
+
+/* === TRIUMVIRATE INTERACTIVE === */
+.tri-card{margin:0 16px 14px;padding:18px;background:rgba(30,41,59,.6);border:1px solid rgba(51,65,85,.5);border-radius:18px}
+.tri-title{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tri-title span{font-size:10px;color:#475569;font-weight:400;text-transform:uppercase;letter-spacing:.8px}
+.tri-pyramid{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+.tri-layer{padding:14px;border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.tri-layer:active{transform:scale(.96)}
+.tri-gui{width:55%;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25)}
+.tri-bpl{width:78%;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)}
+.tri-bta{width:100%;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25)}
+.tri-layer .ln{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.tri-gui .ln{color:#60a5fa}.tri-bpl .ln{color:#a78bfa}.tri-bta .ln{color:#34d399}
+.tri-layer .ld{font-size:10px;color:#64748b;margin-top:2px}
+.tri-flow{display:flex;align-items:center;justify-content:center;gap:4px;padding:2px 0;color:#334155;font-size:8px;letter-spacing:2px}
+.tri-flow .dot{width:4px;height:4px;background:#334155;border-radius:50%;animation:flowDot 1.5s infinite}
+.tri-flow .dot:nth-child(2){animation-delay:.2s}
+.tri-flow .dot:nth-child(3){animation-delay:.4s}
+@keyframes flowDot{0%,100%{opacity:.2}50%{opacity:1;background:#60a5fa}}
+
+/* Active layer detail */
+.tri-detail{margin-top:12px;padding:14px;background:rgba(15,21,32,.5);border:1px solid rgba(51,65,85,.3);border-radius:12px;display:none}
+.tri-detail.show{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tri-detail .td-title{font-size:13px;font-weight:700;margin-bottom:6px}
+.tri-detail .td-desc{font-size:12px;color:#94a3b8;line-height:1.5;margin-bottom:10px}
+.tri-detail .td-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.tri-detail .td-stat{text-align:center;padding:8px;background:rgba(30,41,59,.5);border-radius:8px}
+.tri-detail .td-stat .tds-val{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.tri-detail .td-stat .tds-lbl{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* === LIST ITEMS (refined) === */
+.list-item{padding:13px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:14px;display:flex;align-items:center;gap:11px;margin-bottom:7px;cursor:pointer;transition:all .15s}
+.list-item:active{background:rgba(38,51,72,.8);transform:scale(.985)}
+.li-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.li-icon.blue{background:rgba(96,165,250,.12)}.li-icon.orange{background:rgba(251,146,60,.12)}.li-icon.purple{background:rgba(139,92,246,.12)}.li-icon.green{background:rgba(52,211,153,.12)}.li-icon.red{background:rgba(248,113,113,.12)}
 .li-info{flex:1;min-width:0}
-.li-info .n{font-size:14px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.li-info .t{font-size:12px;color:#64748b;margin-top:1px}
+.li-info .n{font-size:13px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li-info .t{font-size:11px;color:#536079;margin-top:1px}
 .li-val{text-align:right;flex-shrink:0}
-.li-val .a{font-size:15px;font-weight:700;color:#e2e8f0;font-variant-numeric:tabular-nums}
+.li-val .a{font-size:14px;font-weight:700;color:#e2e8f0;font-variant-numeric:tabular-nums}
 .li-val .p{font-size:11px;font-weight:600}
 .li-val .p.up{color:#34d399}.li-val .p.dn{color:#f87171}
-.act-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.act-btn{padding:18px 12px;background:#1e293b;border:1px solid #334155;border-radius:14px;text-align:center;cursor:pointer}
-.act-btn:active{background:#263348;transform:scale(.97)}
-.act-btn svg{width:24px;height:24px;margin:0 auto 8px;display:block}
-.act-btn .al{font-size:13px;font-weight:600;color:#e2e8f0}
-.act-btn .ad{font-size:11px;color:#64748b;margin-top:2px}
-.tx{padding:12px 14px;background:#1e293b;border:1px solid #334155;border-radius:10px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.tx-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.tx-dot.ok{background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.5)}
+
+/* === ACTION GRID === */
+.act-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act-btn{padding:16px 10px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:14px;text-align:center;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.act-btn::before{content:’’;position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent)}
+.act-btn:active{background:rgba(38,51,72,.8);transform:scale(.96)}
+.act-btn svg{width:22px;height:22px;margin:0 auto 6px;display:block}
+.act-btn .al{font-size:12px;font-weight:700;color:#e2e8f0}
+.act-btn .ad{font-size:10px;color:#475569;margin-top:2px}
+
+/* === TX LIST === */
+.tx{padding:11px 13px;background:rgba(30,41,59,.4);border:1px solid rgba(51,65,85,.35);border-radius:10px;display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.tx-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.tx-dot.ok{background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.4)}
 .tx-dot.pend{background:#fb923c;animation:glow 1.5s infinite}
-.tx-info{flex:1}.tx-info .d{font-size:13px;font-weight:500;color:#e2e8f0}.tx-info .m{font-size:11px;color:#475569;margin-top:1px}
-.tx-hash{font-size:10px;color:#475569;background:#0f1520;padding:3px 7px;border-radius:4px;font-family:monospace}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;padding:0 16px}
-.stat{padding:16px;background:#1e293b;border:1px solid #334155;border-radius:14px}
-.stat .sl{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.stat .sv{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
-.stat .ss{font-size:11px;color:#94a3b8;margin-top:2px}
+.tx-info{flex:1}.tx-info .d{font-size:12px;font-weight:600;color:#e2e8f0}.tx-info .m{font-size:10px;color:#475569;margin-top:1px}
+.tx-hash{font-size:9px;color:#3b4a63;background:rgba(15,21,32,.5);padding:3px 7px;border-radius:4px;font-family:monospace}
+
+/* === STATS === */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;padding:0 16px}
+.stat{padding:14px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:14px}
+.stat .sl{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.stat .sv{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.stat .ss{font-size:10px;color:#64748b;margin-top:2px}
+
+/* === NODE GRID === */
 .nodes{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
 .nd{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:monospace}
-.nd.on{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:#34d399}
-.nd.sync{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.25);color:#fb923c}
+.nd.on{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:#34d399}
+.nd.sync{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);color:#fb923c}
 .nd-legend{display:flex;gap:16px;margin-top:10px;justify-content:center}
-.nd-legend i{display:flex;align-items:center;gap:4px;font-size:11px;color:#94a3b8;font-style:normal}
-.nd-legend i::before{content:'';width:6px;height:6px;border-radius:50%;display:inline-block}
+.nd-legend i{display:flex;align-items:center;gap:4px;font-size:10px;color:#64748b;font-style:normal}
+.nd-legend i::before{content:’’;width:6px;height:6px;border-radius:50%;display:inline-block}
 .nd-legend i.a::before{background:#34d399}.nd-legend i.s::before{background:#fb923c}
-.field{margin-bottom:14px}
-.field label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:6px}
-.field input,.field select{width:100%;padding:14px;background:#0f1520;border:1px solid #334155;border-radius:10px;color:#e2e8f0;font-size:15px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none}
-.field input:focus,.field select:focus{border-color:#60a5fa}
-.submit-btn{width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px}
+
+/* === STAKEHOLDER WEB === */
+.stkh-web{position:relative;height:220px;margin:10px 0 16px}
+.stkh-node{position:absolute;padding:8px 12px;background:rgba(30,41,59,.7);border:1px solid rgba(51,65,85,.5);border-radius:10px;font-size:10px;font-weight:700;color:#e2e8f0;white-space:nowrap;cursor:pointer;transition:all .2s}
+.stkh-node:active{transform:scale(.93)}
+.stkh-node .sn-icon{font-size:16px;display:block;text-align:center;margin-bottom:2px}
+.stkh-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,rgba(96,165,250,.2),rgba(139,92,246,.2));border:1px solid rgba(96,165,250,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#60a5fa;letter-spacing:1px}
+.stkh-line{position:absolute;height:1px;background:linear-gradient(90deg,rgba(96,165,250,.15),rgba(96,165,250,.05));transform-origin:left center;pointer-events:none}
+
+/* === FORMS === */
+.field{margin-bottom:12px}
+.field label{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:5px}
+.field input,.field select{width:100%;padding:13px;background:rgba(15,21,32,.6);border:1px solid rgba(51,65,85,.5);border-radius:10px;color:#e2e8f0;font-size:15px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .2s}
+.field input:focus,.field select:focus{border-color:rgba(96,165,250,.5)}
+.submit-btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;position:relative;overflow:hidden}
+.submit-btn::after{content:’’;position:absolute;top:0;left:0;right:0;height:1px;background:rgba(255,255,255,.2)}
 .submit-btn:active{opacity:.85;transform:scale(.98)}
-.xfer-arrow{text-align:center;padding:8px 0;color:#60a5fa}
-.xfer-preview{background:#0f1520;border:1px solid #334155;border-radius:10px;padding:14px;margin:14px 0}
-.xfer-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px}
-.xfer-row .l{color:#94a3b8}.xfer-row .v{font-weight:600;color:#e2e8f0}
-.prof-hdr{text-align:center;padding:16px 0 24px}
-.prof-av{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;margin:0 auto 12px}
-.prof-name{font-size:20px;font-weight:700;color:#fff}
-.prof-id{font-size:12px;color:#475569;margin-top:4px;font-family:monospace}
-.sg{margin-bottom:20px}
-.sg-title{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px}
-.si{padding:14px 16px;background:#1e293b;border:1px solid #334155;display:flex;align-items:center;gap:12px;cursor:pointer}
+.xfer-arrow{text-align:center;padding:6px 0;color:#60a5fa}
+.xfer-preview{background:rgba(15,21,32,.5);border:1px solid rgba(51,65,85,.4);border-radius:10px;padding:13px;margin:12px 0}
+.xfer-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+.xfer-row .l{color:#64748b}.xfer-row .v{font-weight:600;color:#e2e8f0}
+
+/* === PROFILE === */
+.prof-hdr{text-align:center;padding:12px 0 24px}
+.prof-av{width:68px;height:68px;border-radius:18px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;margin:0 auto 10px;box-shadow:0 8px 24px rgba(99,102,241,.25)}
+.prof-name{font-size:18px;font-weight:700;color:#fff}
+.prof-id{font-size:11px;color:#475569;margin-top:3px;font-family:monospace}
+.sg{margin-bottom:18px}
+.sg-title{font-size:9px;color:#3b4a63;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;padding-left:4px}
+.si{padding:13px 14px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);display:flex;align-items:center;gap:11px;cursor:pointer}
 .si+.si{border-top:none}.si:first-of-type{border-radius:10px 10px 0 0}.si:last-of-type{border-radius:0 0 10px 10px}.si:only-of-type{border-radius:10px}
-.si:active{background:#263348}
-.si svg{width:20px;height:20px;color:#94a3b8;flex-shrink:0}
-.si .st{flex:1;font-size:14px;color:#e2e8f0}.si .sc{color:#475569;font-size:18px}
+.si:active{background:rgba(38,51,72,.7)}
+.si svg{width:18px;height:18px;color:#64748b;flex-shrink:0}
+.si .st{flex:1;font-size:13px;color:#e2e8f0}.si .sc{color:#3b4a63;font-size:16px}
+
+/* === PAGES === */
 .page{display:none}.page.active{display:block}
 
-/* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;background-color:#0f172a;border-top:2px solid #334155;display:flex;align-items:center;justify-content:space-around;padding:6px 0;padding-bottom:max(6px,env(safe-area-inset-bottom,0px));z-index:9999;min-height:62px}
-.bnav-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;border:none;background:none}
-.bnav-item svg{width:21px;height:21px;color:#64748b}
-.bnav-item span{font-size:9px;color:#64748b;font-weight:600;font-family:inherit}
+/* === BOTTOM NAV === */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#0c1222;border-top:1px solid rgba(51,65,85,.5);display:flex;align-items:center;justify-content:space-around;padding:6px 0;padding-bottom:max(6px,env(safe-area-inset-bottom,0px));z-index:9999;min-height:60px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 8px;border:none;background:none;position:relative}
+.bnav-item svg{width:20px;height:20px;color:#3b4a63;transition:color .2s}
+.bnav-item span{font-size:9px;color:#3b4a63;font-weight:600;font-family:inherit;transition:color .2s}
 .bnav-item.on svg{color:#60a5fa}.bnav-item.on span{color:#60a5fa}
+.bnav-item.on::after{content:’’;position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:#60a5fa;border-radius:0 0 2px 2px}
 
-/* SHEETS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s}
+/* === SHEETS === */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s}
 .overlay.open{opacity:1;pointer-events:all}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:#1e293b;border-radius:20px 20px 0 0;padding:16px 20px 40px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:10001;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:85vh;overflow-y:auto}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:#1a2235;border-radius:20px 20px 0 0;padding:14px 18px 36px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:10001;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:85vh;overflow-y:auto}
 .sheet.open{transform:translateY(0)}
-.sheet-bar{width:36px;height:4px;background:#475569;border-radius:2px;margin:0 auto 16px}
-.sheet h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
-.sheet .sub{font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.5}
-.toast{position:fixed;top:60px;top:calc(env(safe-area-inset-top,44px) + 12px);left:16px;right:16px;padding:14px 16px;background:#1e293b;border:1px solid rgba(52,211,153,.3);border-radius:12px;display:flex;align-items:center;gap:10px;z-index:20000;transform:translateY(-120%);transition:transform .4s cubic-bezier(.32,.72,0,1);font-size:13px;font-weight:600;color:#e2e8f0}
+.sheet-bar{width:32px;height:3px;background:#334155;border-radius:2px;margin:0 auto 14px}
+.sheet h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.sheet .sub{font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.5}
+.toast{position:fixed;top:60px;top:calc(env(safe-area-inset-top,44px) + 12px);left:16px;right:16px;padding:12px 14px;background:rgba(30,41,59,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(52,211,153,.25);border-radius:12px;display:flex;align-items:center;gap:8px;z-index:20000;transform:translateY(-120%);transition:transform .4s cubic-bezier(.32,.72,0,1);font-size:12px;font-weight:600;color:#e2e8f0}
 .toast.show{transform:translateY(0)}
 
-/* === RETIRE CALCULATOR === */
-.country-selector{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.country-row{display:flex;gap:10px;align-items:center}
+/* === RETIRE PLANNER === */
+.country-selector{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.country-row{display:flex;gap:8px;align-items:center}
 .country-row select{flex:1}
-.country-row .remove-btn{width:40px;height:48px;background:#0f1520;border:1px solid #334155;border-radius:10px;color:#f87171;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.country-row .remove-btn:active{background:#1e293b}
-.add-country-btn{padding:12px;background:#0f1520;border:1px dashed #334155;border-radius:10px;text-align:center;color:#60a5fa;font-size:13px;font-weight:600;cursor:pointer}
-.add-country-btn:active{background:#1e293b}
-
-.result-card{margin-top:16px;padding:20px;background:#0f1520;border:1px solid #334155;border-radius:14px;display:none}
-.result-card.show{display:block}
-.result-winner{text-align:center;margin-bottom:20px}
-.result-winner .flag{font-size:48px;margin-bottom:8px}
-.result-winner .rw-name{font-size:20px;font-weight:700;color:#fff}
-.result-winner .rw-tag{display:inline-block;margin-top:6px;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(52,211,153,.15);color:#34d399;letter-spacing:.5px}
-.result-winner .rw-summary{font-size:13px;color:#94a3b8;margin-top:10px;line-height:1.5}
-
-.score-bars{margin-bottom:16px}
+.country-row .remove-btn{width:38px;height:46px;background:rgba(15,21,32,.5);border:1px solid rgba(51,65,85,.4);border-radius:10px;color:#f87171;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.add-country-btn{padding:10px;background:rgba(15,21,32,.4);border:1px dashed rgba(51,65,85,.5);border-radius:10px;text-align:center;color:#60a5fa;font-size:12px;font-weight:600;cursor:pointer}
+.add-country-btn:active{background:rgba(30,41,59,.5)}
+.result-card{margin-top:14px;padding:18px;background:rgba(15,21,32,.5);border:1px solid rgba(51,65,85,.4);border-radius:16px;display:none}
+.result-card.show{display:block;animation:fadeUp .4s ease}
+.result-winner{text-align:center;margin-bottom:18px}
+.result-winner .flag{font-size:48px;margin-bottom:6px}
+.result-winner .rw-name{font-size:20px;font-weight:800;color:#fff}
+.result-winner .rw-tag{display:inline-block;margin-top:6px;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(52,211,153,.12);color:#34d399;letter-spacing:.5px}
+.result-winner .rw-summary{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.5}
 .score-country{margin-bottom:16px}
 .score-country .sc-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.score-country .sc-name{font-size:14px;font-weight:600;color:#e2e8f0}
+.score-country .sc-name{font-size:13px;font-weight:700;color:#e2e8f0}
 .score-country .sc-score{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
-.score-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.score-row .sr-label{font-size:11px;color:#64748b;width:90px;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
-.score-row .sr-bar{flex:1;height:6px;background:#0f1520;border-radius:3px;overflow:hidden}
-.score-row .sr-fill{height:100%;border-radius:3px;transition:width .6s ease}
-.score-row .sr-val{font-size:11px;font-weight:700;width:28px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
-
-.agreement-card{margin-top:16px;padding:16px;background:#1e293b;border:1px solid #334155;border-radius:12px}
-.agreement-card .ag-title{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.agreement-card .ag-row{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(51,65,85,.5)}
+.score-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.score-row .sr-label{font-size:10px;color:#475569;width:80px;flex-shrink:0;text-transform:uppercase;letter-spacing:.4px}
+.score-row .sr-bar{flex:1;height:5px;background:rgba(15,21,32,.5);border-radius:3px;overflow:hidden}
+.score-row .sr-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.score-row .sr-val{font-size:10px;font-weight:700;width:24px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+.sc-meta{margin-top:8px;font-size:11px;color:#64748b;display:flex;flex-wrap:wrap;gap:8px}
+.sc-meta span{background:rgba(30,41,59,.5);padding:3px 8px;border-radius:6px}
+.ppp-card{margin-top:12px;padding:14px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15);border-radius:12px}
+.ppp-card .ppp-title{font-size:12px;font-weight:700;color:#34d399;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ppp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.ppp-item{text-align:center;padding:8px;background:rgba(15,21,32,.3);border-radius:8px}
+.ppp-item .pv{font-size:16px;font-weight:800;color:#e2e8f0;font-variant-numeric:tabular-nums}
+.ppp-item .pl{font-size:9px;color:#475569;margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.agreement-card{margin-top:12px;padding:14px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:12px}
+.agreement-card .ag-title{font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.agreement-card .ag-row{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(51,65,85,.3)}
 .agreement-card .ag-row:last-child{border-bottom:none}
-.agreement-card .ag-row .agl{color:#94a3b8}.agreement-card .ag-row .agv{color:#e2e8f0;font-weight:600}
+.agreement-card .ag-row .agl{color:#64748b}.agreement-card .ag-row .agv{font-weight:600;color:#e2e8f0}
 .agreement-card .ag-row .agv.yes{color:#34d399}.agreement-card .ag-row .agv.no{color:#f87171}.agreement-card .ag-row .agv.partial{color:#fb923c}
-
-.disclaimer{font-size:11px;color:#475569;margin-top:16px;line-height:1.5;padding:12px;background:rgba(251,146,60,.05);border:1px solid rgba(251,146,60,.15);border-radius:8px}
+.ag-note{font-size:10px;color:#64748b;margin-top:8px;line-height:1.4}
+.disclaimer{font-size:10px;color:#3b4a63;margin-top:14px;line-height:1.5;padding:10px;background:rgba(251,146,60,.03);border:1px solid rgba(251,146,60,.1);border-radius:8px}
 </style>
 
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+
+<div class="splash" id="splash">
+  <div class="splash-rings">
+    <div class="splash-ring"></div>
+    <div class="splash-ring"></div>
+    <div class="splash-ring"></div>
+    <div class="splash-core">🔗</div>
+  </div>
+  <div class="splash-logo">Pension<b>DLT</b></div>
+  <div class="splash-sub">Decentralized large-scale pension administration powered by distributed ledger technology</div>
+  <button class="splash-enter" onclick="dismissSplash()">Enter Application</button>
+  <div class="splash-hint">Based on Springer Research · ISBN 978-3-658-48591-7</div>
+</div>
+
 <div class="app">
-
-<!-- ========== DASHBOARD ========== -->
-
+<!-- ========== HOME ========== -->
 <div class="page active" id="pg-home">
 <div class="hdr">
   <div><h1>Pension<b>DLT</b></h1><p>Decentralized Pension Admin</p></div>
@@ -184,58 +302,110 @@ body{
     <div class="avatar">BK</div>
   </div>
 </div>
-<div class="status-bar"><div class="pulse-dot"></div><span><strong>Blockchain Active</strong> — 15/15 nodes · Block #2,847,391 · 1.2s finality</span></div>
+
+<!-- Live chain ticker -->
+
+<div class="chain-ticker">
+  <div class="pulse"></div>
+  <div class="chain-blocks" id="chainBlocks"></div>
+  <div class="chain-meta">1.2s avg</div>
+</div>
+
+<!-- Portfolio -->
+
 <div class="card">
   <div class="port-label">Total Pension Portfolio</div>
   <div class="port-val">€247,834</div>
   <div class="port-chg">↑ +8.3% YTD</div>
-  <svg class="spark" viewBox="0 0 300 50" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(96,165,250,.3)"/><stop offset="100%" stop-color="rgba(96,165,250,0)"/></linearGradient></defs><path d="M0,40 25,38 50,34 75,36 100,30 125,27 150,23 175,25 200,18 225,14 250,11 275,8 300,5V50H0Z" fill="url(#sg)"/><path d="M0,40 25,38 50,34 75,36 100,30 125,27 150,23 175,25 200,18 225,14 250,11 275,8 300,5" fill="none" stroke="#60a5fa" stroke-width="2.5"/></svg>
+  <svg class="spark" viewBox="0 0 300 50" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(96,165,250,.2)"/><stop offset="100%" stop-color="rgba(96,165,250,0)"/></linearGradient></defs><path d="M0,40 25,38 50,34 75,36 100,30 125,27 150,23 175,25 200,18 225,14 250,11 275,8 300,5V50H0Z" fill="url(#sg)"/><path d="M0,40 25,38 50,34 75,36 100,30 125,27 150,23 175,25 200,18 225,14 250,11 275,8 300,5" fill="none" stroke="#60a5fa" stroke-width="2"/></svg>
   <div class="port-grid">
     <div class="port-grid-item"><div class="lbl">Employer DC</div><div class="val">€148,204</div></div>
     <div class="port-grid-item"><div class="lbl">Previous</div><div class="val">€67,430</div></div>
     <div class="port-grid-item"><div class="lbl">Private</div><div class="val">€32,200</div></div>
   </div>
 </div>
-<div class="card">
-  <div class="pyr-title">System Architecture <span>Triumvirate</span></div>
-  <div class="pyr-layer pyr-gui" onclick="layerInfo('gui')"><div class="ln">GUI</div><div class="ld">Pension Holder Interface</div></div>
-  <div class="pyr-bridge">▼ BRIDGING ▼</div>
-  <div class="pyr-layer pyr-bpl" onclick="layerInfo('bpl')"><div class="ln">BPL</div><div class="ld">Blockchain Platform</div></div>
-  <div class="pyr-bridge">▼ BRIDGING ▼</div>
-  <div class="pyr-layer pyr-bta" onclick="layerInfo('bta')"><div class="ln">BTA</div><div class="ld">Blockchain Transfer Agency</div></div>
+
+<!-- Lead Time Comparison -->
+
+<div class="leadtime" id="leadtime">
+  <div class="leadtime-title">⏱️ End-to-End Transfer Time <span>Key Thesis Finding</span></div>
+  <div class="lt-row"><div class="lt-label">Legacy</div><div class="lt-bar-wrap"><div class="lt-bar legacy" id="ltLegacy">6–8 weeks</div></div></div>
+  <div class="lt-row"><div class="lt-label">DLT</div><div class="lt-bar-wrap"><div class="lt-bar dlt" id="ltDlt">~2.4 hrs</div></div></div>
+  <div class="lt-detail">Reduction from 5-7 ledger interactions → 1 single shared ledger</div>
+  <div class="lt-savings"><div class="big">98.5%</div><div class="sub">reduction in settlement time</div></div>
 </div>
+
+<!-- Career Timeline -->
+
 <div class="sec">
-  <div class="sec-hdr"><div class="sec-title">Pension Holdings</div><div class="sec-link" onclick="go('net')">View All</div></div>
-  <div class="list-item"><div class="li-icon blue">🏢</div><div class="li-info"><div class="n">Siemens AG — DC Plan</div><div class="t">Active · Employer Match 6%</div></div><div class="li-val"><div class="a">€148,204</div><div class="p up">+12.1%</div></div></div>
-  <div class="list-item"><div class="li-icon orange">📋</div><div class="li-info"><div class="n">Allianz GmbH — Previous</div><div class="t">Vested · Transferred via BTA</div></div><div class="li-val"><div class="a">€67,430</div><div class="p up">+5.7%</div></div></div>
-  <div class="list-item"><div class="li-icon purple">🔐</div><div class="li-info"><div class="n">Private Pension — Riester</div><div class="t">Active · Self-funded</div></div><div class="li-val"><div class="a">€32,200</div><div class="p dn">-1.2%</div></div></div>
-</div>
-<div class="sec">
-  <div class="sec-hdr"><div class="sec-title">Quick Actions</div></div>
-  <div class="act-grid">
-    <div class="act-btn" onclick="go('xfer')"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M7 17l-4-4 4-4M3 13h13M17 7l4 4-4 4M21 11H8"/></svg><div class="al">Transfer</div><div class="ad">Move pension via BTA</div></div>
-    <div class="act-btn" onclick="go('retire')"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><div class="al">Retire Planner</div><div class="ad">Cross-border optimizer</div></div>
-    <div class="act-btn" onclick="toast('🔍','Audit trail — 847 entries')"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg><div class="al">Audit Trail</div><div class="ad">Full DLT history</div></div>
-    <div class="act-btn" onclick="toast('📄','Documents synced')"><svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg><div class="al">Documents</div><div class="ad">Statements & proofs</div></div>
+  <div class="sec-hdr"><div class="sec-title">Pension Career Timeline</div></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2014 – Present</div>
+      <div class="tl-title">Siemens AG</div>
+      <div class="tl-sub">DC Plan · Active · 6% employer match</div>
+      <div class="tl-amt">€148,204 accrued</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-transfer">BTA</div>
+      <div class="tl-date">2009 – 2014</div>
+      <div class="tl-title">Allianz GmbH</div>
+      <div class="tl-sub">Vested · Transferred to current via BTA</div>
+      <div class="tl-amt">€67,430 transferred</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2011 – Present</div>
+      <div class="tl-title">Private Riester Pension</div>
+      <div class="tl-sub">Self-funded · Tax-advantaged</div>
+      <div class="tl-amt">€32,200 accrued</div>
+    </div>
   </div>
 </div>
+
+<!-- Triumvirate Architecture -->
+
+<div class="tri-card">
+  <div class="tri-title">🔺 System Architecture <span>Triumvirate</span></div>
+  <div class="tri-pyramid">
+    <div class="tri-layer tri-gui" onclick="toggleTriDetail('gui')"><div class="ln">GUI</div><div class="ld">Pension Holder Interface</div></div>
+    <div class="tri-flow"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="tri-layer tri-bpl" onclick="toggleTriDetail('bpl')"><div class="ln">BPL</div><div class="ld">Blockchain Platform · 15 Nodes</div></div>
+    <div class="tri-flow"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="tri-layer tri-bta" onclick="toggleTriDetail('bta')"><div class="ln">BTA</div><div class="ld">Blockchain Transfer Agency</div></div>
+  </div>
+  <div class="tri-detail" id="triDetail"></div>
+</div>
+
+<!-- Quick Actions -->
+
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-title">Actions</div></div>
+  <div class="act-grid">
+    <div class="act-btn" onclick="go('xfer')"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M7 17l-4-4 4-4M3 13h13M17 7l4 4-4 4M21 11H8"/></svg><div class="al">Transfer</div><div class="ad">Move via BTA</div></div>
+    <div class="act-btn" onclick="go('retire')"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><div class="al">Retire Planner</div><div class="ad">Cross-border</div></div>
+    <div class="act-btn" onclick="toast('🔍','847 audit entries')"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg><div class="al">Audit Trail</div><div class="ad">DLT history</div></div>
+    <div class="act-btn" onclick="openSheet('upd')"><svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg><div class="al">Update Info</div><div class="ad">Propagate</div></div>
+  </div>
+</div>
+
+<!-- Ledger Activity -->
+
 <div class="sec">
   <div class="sec-hdr"><div class="sec-title">Ledger Activity</div></div>
   <div class="tx"><div class="tx-dot ok"></div><div class="tx-info"><div class="d">Monthly Contribution — Siemens</div><div class="m">Feb 1 · €1,240 · 3 confirms</div></div><div class="tx-hash">0x8f3a…d2c1</div></div>
-  <div class="tx"><div class="tx-dot ok"></div><div class="tx-info"><div class="d">Employer Match Deposited</div><div class="m">Feb 1 · €744 · 3 confirms</div></div><div class="tx-hash">0x2b7e…a4f9</div></div>
-  <div class="tx"><div class="tx-dot pend"></div><div class="tx-info"><div class="d">Address Update Propagated</div><div class="m">Jan 28 · Pending 1 node</div></div><div class="tx-hash">0xc1d4…0e8b</div></div>
-  <div class="tx"><div class="tx-dot ok"></div><div class="tx-info"><div class="d">Fund Transfer — Allianz → Siemens</div><div class="m">Jan 15 · €12,500 · BTA verified</div></div><div class="tx-hash">0x5fa1…7c3d</div></div>
+  <div class="tx"><div class="tx-dot ok"></div><div class="tx-info"><div class="d">Employer Match Deposited</div><div class="m">Feb 1 · €744</div></div><div class="tx-hash">0x2b7e…a4f9</div></div>
+  <div class="tx"><div class="tx-dot pend"></div><div class="tx-info"><div class="d">Address Update</div><div class="m">Jan 28 · Pending 1 node</div></div><div class="tx-hash">0xc1d4…0e8b</div></div>
 </div>
 </div>
 
 <!-- ========== NETWORK ========== -->
 
 <div class="page" id="pg-net">
-<div class="hdr"><div><h1>Blockchain <b>Network</b></h1><p>BPL Infrastructure</p></div></div>
+<div class="hdr"><div><h1>Blockchain <b>Network</b></h1><p>BPL Infrastructure · 15 Nodes</p></div></div>
 <div class="stats">
   <div class="stat"><div class="sl">Block Height</div><div class="sv" style="color:#60a5fa">2.84M</div><div class="ss">~1.2s per block</div></div>
-  <div class="stat"><div class="sl">Active Nodes</div><div class="sv" style="color:#34d399">15</div><div class="ss">Min required: 15</div></div>
-  <div class="stat"><div class="sl">Transactions</div><div class="sv">48.2K</div><div class="ss">Last 30 days</div></div>
+  <div class="stat"><div class="sl">Active Nodes</div><div class="sv" style="color:#34d399">15</div><div class="ss">Min: 15</div></div>
+  <div class="stat"><div class="sl">Tx / 30 Days</div><div class="sv">48.2K</div><div class="ss">↑ 12% from prior</div></div>
   <div class="stat"><div class="sl">Finality</div><div class="sv" style="color:#a78bfa">1.2s</div><div class="ss">Avg confirmation</div></div>
 </div>
 <div class="sec">
@@ -243,11 +413,24 @@ body{
   <div class="nodes"><div class="nd on">N01</div><div class="nd on">N02</div><div class="nd on">N03</div><div class="nd on">N04</div><div class="nd on">N05</div><div class="nd on">N06</div><div class="nd on">N07</div><div class="nd sync">N08</div><div class="nd on">N09</div><div class="nd on">N10</div><div class="nd on">N11</div><div class="nd on">N12</div><div class="nd on">N13</div><div class="nd on">N14</div><div class="nd on">N15</div></div>
   <div class="nd-legend"><i class="a">Active</i><i class="s">Syncing</i></div>
 </div>
-<div class="sec" style="margin-top:20px">
-  <div class="sec-hdr"><div class="sec-title">Stakeholders</div></div>
-  <div class="list-item"><div class="li-icon blue">🏛️</div><div class="li-info"><div class="n">BaFin — Regulator</div><div class="t">Read-only · Compliance</div></div></div>
-  <div class="list-item"><div class="li-icon orange">🏢</div><div class="li-info"><div class="n">Corporate Employers (12)</div><div class="t">Write access · Contributions</div></div></div>
-  <div class="list-item"><div class="li-icon purple">📊</div><div class="li-info"><div class="n">External Auditors (3)</div><div class="t">Audit nodes · Quarterly</div></div></div>
+<div class="sec" style="margin-top:16px">
+  <div class="sec-hdr"><div class="sec-title">Stakeholder Network</div><span style="font-size:10px;color:#475569">STS Theory</span></div>
+  <div class="stkh-web" id="stkhWeb">
+    <div class="stkh-center">BPL</div>
+    <div class="stkh-node" style="top:8px;left:50%;transform:translateX(-50%)"><div class="sn-icon">👤</div>Pension Holders</div>
+    <div class="stkh-node" style="top:40px;right:8px"><div class="sn-icon">🏢</div>Employers</div>
+    <div class="stkh-node" style="bottom:40px;right:8px"><div class="sn-icon">📊</div>Auditors</div>
+    <div class="stkh-node" style="bottom:8px;left:50%;transform:translateX(-50%)"><div class="sn-icon">🏛️</div>Regulators</div>
+    <div class="stkh-node" style="bottom:40px;left:8px"><div class="sn-icon">🏦</div>Fund Mgrs</div>
+    <div class="stkh-node" style="top:40px;left:8px"><div class="sn-icon">⚖️</div>Govt</div>
+  </div>
+</div>
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-title">BTA Performance</div></div>
+  <div class="stats" style="padding:0">
+    <div class="stat"><div class="sl">Avg Transfer</div><div class="sv" style="font-size:18px">2.4h</div><div class="ss" style="color:#34d399">vs 6-8wk legacy</div></div>
+    <div class="stat"><div class="sl">Transfers MTD</div><div class="sv" style="font-size:18px">1,247</div><div class="ss">Cross-employer</div></div>
+  </div>
 </div>
 </div>
 
@@ -255,85 +438,29 @@ body{
 
 <div class="page" id="pg-retire">
 <div class="hdr"><div><h1>Retire <b>Planner</b></h1><p>Cross-Border Pension Optimizer</p></div></div>
-
-<div class="status-bar" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)">
-  <div class="pulse-dot"></div>
-  <span><strong>Socialization Engine</strong> — Analyzes bilateral agreements, tax treaties, portability & cost of living</span>
+<div class="card" style="border-color:rgba(52,211,153,.15)">
+  <div style="font-size:12px;font-weight:700;color:#34d399;margin-bottom:6px;display:flex;align-items:center;gap:6px">🌐 Socialization Agreement Engine</div>
+  <div style="font-size:11px;color:#64748b;line-height:1.5">Analyzes bilateral social security agreements, EU Regulation 883/2004, tax treaties, pension portability rules, and purchasing power parity to recommend optimal retirement jurisdiction.</div>
 </div>
-
 <div class="sec">
-  <div class="sec-title" style="margin-bottom:4px">Select Countries</div>
-  <p style="font-size:12px;color:#64748b;margin-bottom:14px">Choose up to 3 countries where you hold pensions or plan to retire</p>
-
+  <div class="sec-title" style="margin-bottom:3px">Select Countries</div>
+  <p style="font-size:11px;color:#475569;margin-bottom:12px">Where you hold pensions or plan to retire (2-3)</p>
   <div class="country-selector" id="countrySelector">
-    <div class="country-row" data-idx="0">
-      <select class="country-sel" onchange="updateCalc()">
-        <option value="">Select country...</option>
-        <option value="DE">🇩🇪 Germany</option>
-        <option value="UK">🇬🇧 United Kingdom</option>
-        <option value="US">🇺🇸 United States</option>
-        <option value="NL">🇳🇱 Netherlands</option>
-        <option value="CH">🇨🇭 Switzerland</option>
-        <option value="FR">🇫🇷 France</option>
-        <option value="AT">🇦🇹 Austria</option>
-        <option value="ES">🇪🇸 Spain</option>
-        <option value="PT">🇵🇹 Portugal</option>
-        <option value="IT">🇮🇹 Italy</option>
-        <option value="IE">🇮🇪 Ireland</option>
-        <option value="SE">🇸🇪 Sweden</option>
-        <option value="DK">🇩🇰 Denmark</option>
-        <option value="BE">🇧🇪 Belgium</option>
-        <option value="LU">🇱🇺 Luxembourg</option>
-        <option value="JP">🇯🇵 Japan</option>
-        <option value="AU">🇦🇺 Australia</option>
-        <option value="CA">🇨🇦 Canada</option>
-      </select>
-    </div>
-    <div class="country-row" data-idx="1">
-      <select class="country-sel" onchange="updateCalc()">
-        <option value="">Select country...</option>
-        <option value="DE">🇩🇪 Germany</option>
-        <option value="UK">🇬🇧 United Kingdom</option>
-        <option value="US">🇺🇸 United States</option>
-        <option value="NL">🇳🇱 Netherlands</option>
-        <option value="CH">🇨🇭 Switzerland</option>
-        <option value="FR">🇫🇷 France</option>
-        <option value="AT">🇦🇹 Austria</option>
-        <option value="ES">🇪🇸 Spain</option>
-        <option value="PT">🇵🇹 Portugal</option>
-        <option value="IT">🇮🇹 Italy</option>
-        <option value="IE">🇮🇪 Ireland</option>
-        <option value="SE">🇸🇪 Sweden</option>
-        <option value="DK">🇩🇰 Denmark</option>
-        <option value="BE">🇧🇪 Belgium</option>
-        <option value="LU">🇱🇺 Luxembourg</option>
-        <option value="JP">🇯🇵 Japan</option>
-        <option value="AU">🇦🇺 Australia</option>
-        <option value="CA">🇨🇦 Canada</option>
-      </select>
-    </div>
+    <div class="country-row" data-idx="0"><select class="country-sel" onchange="updateCalc()"><option value="">Select country...</option><option value="DE">🇩🇪 Germany</option><option value="UK">🇬🇧 United Kingdom</option><option value="US">🇺🇸 United States</option><option value="NL">🇳🇱 Netherlands</option><option value="CH">🇨🇭 Switzerland</option><option value="FR">🇫🇷 France</option><option value="AT">🇦🇹 Austria</option><option value="ES">🇪🇸 Spain</option><option value="PT">🇵🇹 Portugal</option><option value="IT">🇮🇹 Italy</option><option value="IE">🇮🇪 Ireland</option><option value="SE">🇸🇪 Sweden</option><option value="DK">🇩🇰 Denmark</option><option value="BE">🇧🇪 Belgium</option><option value="LU">🇱🇺 Luxembourg</option><option value="JP">🇯🇵 Japan</option><option value="AU">🇦🇺 Australia</option><option value="CA">🇨🇦 Canada</option></select></div>
+    <div class="country-row" data-idx="1"><select class="country-sel" onchange="updateCalc()"><option value="">Select country...</option><option value="DE">🇩🇪 Germany</option><option value="UK">🇬🇧 United Kingdom</option><option value="US">🇺🇸 United States</option><option value="NL">🇳🇱 Netherlands</option><option value="CH">🇨🇭 Switzerland</option><option value="FR">🇫🇷 France</option><option value="AT">🇦🇹 Austria</option><option value="ES">🇪🇸 Spain</option><option value="PT">🇵🇹 Portugal</option><option value="IT">🇮🇹 Italy</option><option value="IE">🇮🇪 Ireland</option><option value="SE">🇸🇪 Sweden</option><option value="DK">🇩🇰 Denmark</option><option value="BE">🇧🇪 Belgium</option><option value="LU">🇱🇺 Luxembourg</option><option value="JP">🇯🇵 Japan</option><option value="AU">🇦🇺 Australia</option><option value="CA">🇨🇦 Canada</option></select></div>
   </div>
   <div class="add-country-btn" id="addCountryBtn" onclick="addCountry()">+ Add Third Country</div>
-
-  <div style="margin-top:14px">
-    <div class="field"><label>Your Total Pension (€)</label><input type="number" id="pensionAmt" value="247834" onchange="updateCalc()"></div>
+  <div style="margin-top:12px">
+    <div class="field"><label>Pension Total (€)</label><input type="number" id="pensionAmt" value="247834" onchange="updateCalc()"></div>
     <div class="field"><label>Target Retirement Age</label><select id="retireAge" onchange="updateCalc()"><option value="60">60</option><option value="62">62</option><option value="65" selected>65</option><option value="67">67</option><option value="70">70</option></select></div>
   </div>
-
-<button class="submit-btn" onclick="runCalculator()">Analyze Retirement Options</button>
-
-  <!-- RESULTS -->
-
+  <button class="submit-btn" onclick="runCalculator()">🔍 Analyze Retirement Options</button>
   <div class="result-card" id="resultCard">
     <div class="result-winner" id="resultWinner"></div>
-    <div class="score-bars" id="scoreBars"></div>
-
-```
-<div id="agreementCards"></div>
-
-<div class="disclaimer">⚠️ This is a simplified model for illustrative purposes based on publicly available bilateral social security agreement data. Actual pension entitlements depend on individual contribution histories, specific treaty provisions, and current legislation. Consult a qualified pension advisor for personal guidance.</div>
-```
-
+    <div id="pppSection"></div>
+    <div id="scoreBars"></div>
+    <div id="agreementCards"></div>
+    <div class="disclaimer">⚠️ Simplified model for illustration. Based on bilateral SSA data, EU Reg 883/2004, and PPP indices. Consult a qualified pension advisor for personal guidance.</div>
   </div>
 </div>
 </div>
@@ -342,11 +469,14 @@ body{
 
 <div class="page" id="pg-xfer">
 <div class="hdr"><div><h1>Transfer <b>Center</b></h1><p>BTA-Powered Transfers</p></div></div>
-<div class="status-bar" style="border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.08)"><div class="pulse-dot" style="background:#a78bfa;box-shadow:0 0 8px #a78bfa"></div><span><strong>BTA Ready</strong> — Single shared ledger. ~2.4 hrs vs 6-8 weeks legacy.</span></div>
+<div class="card" style="border-color:rgba(139,92,246,.2)">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><div class="pulse" style="width:8px;height:8px;background:#a78bfa;border-radius:50%;box-shadow:0 0 8px #a78bfa"></div><span style="font-size:12px;font-weight:700;color:#a78bfa">BTA Ready</span></div>
+  <div style="font-size:11px;color:#64748b;line-height:1.4">Single shared ledger. ~2.4 hrs vs 6-8 weeks legacy.</div>
+</div>
 <div class="sec">
-  <div class="sec-title" style="margin-bottom:14px">Initiate Transfer</div>
+  <div class="sec-title" style="margin-bottom:12px">Initiate Transfer</div>
   <div class="field"><label>From</label><select><option>Allianz GmbH — €67,430</option><option>Private Pension — €32,200</option></select></div>
-  <div class="xfer-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+  <div class="xfer-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
   <div class="field"><label>To</label><select><option>Siemens AG — DC Plan</option><option>New External Plan</option></select></div>
   <div class="field"><label>Type</label><select><option>Full Balance</option><option>Partial</option><option>Fund Unit</option></select></div>
   <div class="xfer-preview">
@@ -354,7 +484,7 @@ body{
     <div class="xfer-row"><span class="l">Fee</span><span class="v" style="color:#34d399">€0.00</span></div>
     <div class="xfer-row"><span class="l">Settlement</span><span class="v">~2.4 hours</span></div>
     <div class="xfer-row"><span class="l">Legacy</span><span class="v" style="color:#f87171;text-decoration:line-through">6-8 weeks</span></div>
-    <div style="border-top:1px solid #334155;margin:8px 0"></div>
+    <div style="border-top:1px solid rgba(51,65,85,.3);margin:6px 0"></div>
     <div class="xfer-row"><span class="l">Ledger hops</span><span class="v" style="color:#34d399">1 (DLT)</span></div>
     <div class="xfer-row"><span class="l">Legacy hops</span><span class="v" style="color:#f87171">5-7</span></div>
   </div>
@@ -365,23 +495,27 @@ body{
 <!-- ========== PROFILE ========== -->
 
 <div class="page" id="pg-prof">
-<div class="hdr"><div><h1>My <b>Profile</b></h1><p>Account & DLT Identity</p></div></div>
+<div class="hdr"><div><h1>My <b>Profile</b></h1><p>DLT Identity</p></div></div>
 <div class="sec">
   <div class="prof-hdr"><div class="prof-av">BK</div><div class="prof-name">Pension Holder</div><div class="prof-id">DLT: 0x8f3a…29d1 · Node N03</div></div>
   <div class="sg"><div class="sg-title">Personal</div>
     <div class="si" onclick="openSheet('upd')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="st">Update Details</span><span class="sc">›</span></div>
-    <div class="si" onclick="toast('📍','Address verified on-chain')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="st">Address on Ledger</span><span class="sc">›</span></div>
-    <div class="si" onclick="toast('💍','Life events opened')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="st">Life Events</span><span class="sc">›</span></div>
+    <div class="si" onclick="toast('📍','Verified on-chain')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="st">Address on Ledger</span><span class="sc">›</span></div>
+    <div class="si" onclick="toast('💍','Life events log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="st">Life Events</span><span class="sc">›</span></div>
   </div>
   <div class="sg"><div class="sg-title">Security</div>
     <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="st">DLT Identity</span><span class="sc">›</span></div>
     <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="st">Privacy & Data</span><span class="sc">›</span></div>
   </div>
+  <div class="sg"><div class="sg-title">About</div>
+    <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span class="st">About PensionDLT</span><span class="sc">›</span></div>
+    <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="st">Thesis · Springer</span><span class="sc">›</span></div>
+  </div>
 </div>
 </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- NAV -->
 
 <nav class="bnav">
   <div class="bnav-item on" data-p="home" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Home</span></div>
@@ -395,190 +529,156 @@ body{
 
 <div class="overlay" id="ov" onclick="closeSheet()"></div>
 <div class="sheet" id="sh-layer"><div class="sheet-bar"></div><h2 id="sh-layer-t"></h2><p class="sub" id="sh-layer-d"></p><div id="sh-layer-c"></div></div>
-<div class="sheet" id="sh-upd"><div class="sheet-bar"></div><h2>Update Information</h2><p class="sub">Changes propagate to all 15 nodes immutably.</p><div class="field"><label>Full Name</label><input type="text" placeholder="Enter full name"></div><div class="field"><label>Address</label><input type="text" placeholder="Street, City, Postal"></div><div class="field"><label>Life Event</label><select><option value="">Select...</option><option>Marriage</option><option>Divorce</option><option>Birth of Child</option><option>Retirement</option><option>Employer Change</option></select></div><button class="submit-btn" onclick="closeSheet();toast('✅','Propagated to 15 nodes')">Propagate to Network</button></div>
+<div class="sheet" id="sh-upd"><div class="sheet-bar"></div><h2>Update Information</h2><p class="sub">Propagates to all 15 nodes. Immutably recorded.</p><div class="field"><label>Full Name</label><input type="text" placeholder="Enter name"></div><div class="field"><label>Address</label><input type="text" placeholder="Street, City, Postal"></div><div class="field"><label>Life Event</label><select><option value="">Select...</option><option>Marriage</option><option>Divorce</option><option>Birth of Child</option><option>Retirement</option><option>Employer Change</option></select></div><button class="submit-btn" onclick="closeSheet();toast('✅','Propagated to 15 nodes')">Propagate</button></div>
 <div class="toast" id="toastEl"><span id="toastI"></span> <span id="toastT"></span></div>
 
 <script>
-/* === NAV === */
-function go(p){var pgs=document.querySelectorAll('.page'),i;for(i=0;i<pgs.length;i++){pgs[i].classList.remove('active')}var el=document.getElementById('pg-'+p);if(el){el.classList.add('active')}var navs=document.querySelectorAll('.bnav-item');for(i=0;i<navs.length;i++){if(navs[i].getAttribute('data-p')===p){navs[i].classList.add('on')}else{navs[i].classList.remove('on')}}window.scrollTo(0,0)}
+/* NAV */
+function go(p){var pgs=document.querySelectorAll('.page'),i;for(i=0;i<pgs.length;i++)pgs[i].classList.remove('active');var el=document.getElementById('pg-'+p);if(el)el.classList.add('active');var navs=document.querySelectorAll('.bnav-item');for(i=0;i<navs.length;i++){if(navs[i].getAttribute('data-p')===p)navs[i].classList.add('on');else navs[i].classList.remove('on')}window.scrollTo(0,0);if(p==='home')animateLeadTime()}
 function openSheet(id){document.getElementById('ov').classList.add('open');document.getElementById('sh-'+id).classList.add('open')}
-function closeSheet(){document.getElementById('ov').classList.remove('open');var s=document.querySelectorAll('.sheet');for(var i=0;i<s.length;i++){s[i].classList.remove('open')}}
-var ld={gui:{t:'GUI — User Interface',d:'Login-capable portal for pension holders — active employees, job-changers, and retirees.',c:'<div class="list-item"><div class="li-icon blue">👤</div><div class="li-info"><div class="n">View Balances & History</div><div class="t">Real-time portfolio access</div></div></div><div class="list-item"><div class="li-icon orange">✏️</div><div class="li-info"><div class="n">Self-Service Updates</div><div class="t">Address, life events, beneficiaries</div></div></div><div class="list-item"><div class="li-icon purple">🔗</div><div class="li-info"><div class="n">Web 2.0 / 3.0 Ready</div><div class="t">Flexible deployment</div></div></div>'},bpl:{t:'BPL — Blockchain Platform',d:'Decentralised ledger backbone connecting corporates, auditors, regulators (min 15 nodes).',c:'<div class="list-item"><div class="li-icon blue">🔗</div><div class="li-info"><div class="n">Decentralised Ledger</div><div class="t">Single source of truth</div></div></div><div class="list-item"><div class="li-icon orange">🏢</div><div class="li-info"><div class="n">Multi-Stakeholder</div><div class="t">Corporates, auditors, regulators</div></div></div><div class="list-item"><div class="li-icon purple">📊</div><div class="li-info"><div class="n">Transparent Data</div><div class="t">Singular ledger aggregation</div></div></div>'},bta:{t:'BTA — Transfer Agency',d:'Single shared ledger transfers: 5-7 legacy hops → 1, settling in hours not weeks.',c:'<div class="list-item"><div class="li-icon blue">⚡</div><div class="li-info"><div class="n">Single Ledger</div><div class="t">1 vs 5-7 legacy hops</div></div></div><div class="list-item"><div class="li-icon orange">⏱️</div><div class="li-info"><div class="n">Hours, Not Weeks</div><div class="t">~2.4 hrs average</div></div></div><div class="list-item"><div class="li-icon purple">🔍</div><div class="li-info"><div class="n">Full Transparency</div><div class="t">Real-time tracking</div></div></div>'}};
-function layerInfo(k){var d=ld[k];document.getElementById('sh-layer-t').textContent=d.t;document.getElementById('sh-layer-d').textContent=d.d;document.getElementById('sh-layer-c').innerHTML=d.c;openSheet('layer')}
-var tt=null;function toast(i,t){var el=document.getElementById('toastEl');document.getElementById('toastI').textContent=i;document.getElementById('toastT').textContent=t;el.classList.add('show');if(tt){clearTimeout(tt)}tt=setTimeout(function(){el.classList.remove('show')},2500)}
+function closeSheet(){document.getElementById('ov').classList.remove('open');var s=document.querySelectorAll('.sheet');for(var i=0;i<s.length;i++)s[i].classList.remove('open')}
+var tt=null;function toast(i,t){var el=document.getElementById('toastEl');document.getElementById('toastI').textContent=i;document.getElementById('toastT').textContent=t;el.classList.add('show');if(tt)clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2500)}
+
+/* SPLASH */
+function dismissSplash(){document.getElementById('splash').classList.add('hide');setTimeout(function(){document.getElementById('splash').style.display='none';animateLeadTime()},600)}
+
+/* LIVE CHAIN TICKER */
+var blockNum=2847391;
+function addBlock(){blockNum++;var el=document.createElement('div');el.className='chain-block';el.textContent='#'+blockNum;var container=document.getElementById('chainBlocks');container.appendChild(el);if(container.children.length>6)container.removeChild(container.firstChild)}
+addBlock();addBlock();addBlock();addBlock();
+setInterval(addBlock,3000);
+
+/* LEAD TIME ANIMATION */
+function animateLeadTime(){setTimeout(function(){var l=document.getElementById('ltLegacy');var d=document.getElementById('ltDlt');if(l)l.classList.add('animate');if(d)d.classList.add('animate')},300)}
+
+/* TRIUMVIRATE DETAIL */
+var triData={
+  gui:{title:'GUI — User Interface',desc:'Login-capable portal for all pension holders. View balances, run updates, track transfers. Works for active employees, job-changers, and retirees — creating an open system per STS theory.',color:'#60a5fa',stats:[{v:'24/7',l:'Access'},{v:'Real-time',l:'Data'},{v:'Web 2/3',l:'Ready'}]},
+  bpl:{title:'BPL — Blockchain Platform',desc:'Decentralised ledger backbone with minimum 15 nodes. Connects corporates, auditors, regulators through a single source of truth with transparent data aggregation.',color:'#a78bfa',stats:[{v:'15',l:'Min Nodes'},{v:'1.2s',l:'Finality'},{v:'48K+',l:'Tx/Month'}]},
+  bta:{title:'BTA — Transfer Agency',desc:'Single shared ledger for fund transfers. Reduces 5-7 legacy ledger interactions to 1. Cash and fund unit transfers settle in hours, not weeks.',color:'#34d399',stats:[{v:'1',l:'Ledger Hop'},{v:'2.4h',l:'Avg Settle'},{v:'€0',l:'Tx Fee'}]}
+};
+var activeLayer='';
+function toggleTriDetail(k){
+  var el=document.getElementById('triDetail');
+  if(activeLayer===k){el.classList.remove('show');activeLayer='';return}
+  activeLayer=k;var d=triData[k];
+  var h='<div class="td-title" style="color:'+d.color+'">'+d.title+'</div>';
+  h+='<div class="td-desc">'+d.desc+'</div><div class="td-stats">';
+  for(var i=0;i<d.stats.length;i++){h+='<div class="td-stat"><div class="tds-val" style="color:'+d.color+'">'+d.stats[i].v+'</div><div class="tds-lbl">'+d.stats[i].l+'</div></div>'}
+  h+='</div>';el.innerHTML=h;el.classList.add('show');
+}
 
 /* === COUNTRY DATA === */
 var C={
-  DE:{name:'Germany',flag:'🇩🇪',retireAge:67,taxRate:25,costIdx:70,healthScore:88,pillar2Strength:82,portability:85,eurozone:true},
-  UK:{name:'United Kingdom',flag:'🇬🇧',retireAge:67,taxRate:20,costIdx:78,healthScore:82,pillar2Strength:88,portability:80,eurozone:false},
-  US:{name:'United States',flag:'🇺🇸',retireAge:67,taxRate:22,costIdx:85,healthScore:65,pillar2Strength:75,portability:60,eurozone:false},
-  NL:{name:'Netherlands',flag:'🇳🇱',retireAge:67,taxRate:37,costIdx:75,healthScore:90,pillar2Strength:95,portability:90,eurozone:true},
-  CH:{name:'Switzerland',flag:'🇨🇭',retireAge:65,taxRate:12,costIdx:120,healthScore:95,pillar2Strength:92,portability:78,eurozone:false},
-  FR:{name:'France',flag:'🇫🇷',retireAge:64,taxRate:30,costIdx:72,healthScore:92,pillar2Strength:70,portability:82,eurozone:true},
-  AT:{name:'Austria',flag:'🇦🇹',retireAge:65,taxRate:25,costIdx:68,healthScore:87,pillar2Strength:65,portability:84,eurozone:true},
-  ES:{name:'Spain',flag:'🇪🇸',retireAge:67,taxRate:24,costIdx:55,healthScore:86,pillar2Strength:45,portability:80,eurozone:true},
-  PT:{name:'Portugal',flag:'🇵🇹',retireAge:66,taxRate:14,costIdx:45,healthScore:80,pillar2Strength:40,portability:78,eurozone:true},
-  IT:{name:'Italy',flag:'🇮🇹',retireAge:67,taxRate:26,costIdx:60,healthScore:84,pillar2Strength:55,portability:80,eurozone:true},
-  IE:{name:'Ireland',flag:'🇮🇪',retireAge:66,taxRate:20,costIdx:82,healthScore:85,pillar2Strength:72,portability:82,eurozone:true},
-  SE:{name:'Sweden',flag:'🇸🇪',retireAge:65,taxRate:30,costIdx:76,healthScore:91,pillar2Strength:88,portability:88,eurozone:false},
-  DK:{name:'Denmark',flag:'🇩🇰',retireAge:67,taxRate:32,costIdx:80,healthScore:90,pillar2Strength:90,portability:88,eurozone:false},
-  BE:{name:'Belgium',flag:'🇧🇪',retireAge:65,taxRate:30,costIdx:70,healthScore:86,pillar2Strength:65,portability:85,eurozone:true},
-  LU:{name:'Luxembourg',flag:'🇱🇺',retireAge:65,taxRate:18,costIdx:90,healthScore:88,pillar2Strength:78,portability:90,eurozone:true},
-  JP:{name:'Japan',flag:'🇯🇵',retireAge:65,taxRate:20,costIdx:72,healthScore:96,pillar2Strength:60,portability:55,eurozone:false},
-  AU:{name:'Australia',flag:'🇦🇺',retireAge:67,taxRate:15,costIdx:78,healthScore:82,pillar2Strength:85,portability:65,eurozone:false},
-  CA:{name:'Canada',flag:'🇨🇦',retireAge:65,taxRate:15,costIdx:72,healthScore:83,pillar2Strength:75,portability:70,eurozone:false}
+  DE:{name:'Germany',flag:'🇩🇪',retireAge:67,taxRate:25,costIdx:70,healthScore:88,pillar2Strength:82,portability:85,eurozone:true,ppp:0.79,currency:'EUR'},
+  UK:{name:'United Kingdom',flag:'🇬🇧',retireAge:67,taxRate:20,costIdx:78,healthScore:82,pillar2Strength:88,portability:80,eurozone:false,ppp:0.69,currency:'GBP'},
+  US:{name:'United States',flag:'🇺🇸',retireAge:67,taxRate:22,costIdx:85,healthScore:65,pillar2Strength:75,portability:60,eurozone:false,ppp:1.0,currency:'USD'},
+  NL:{name:'Netherlands',flag:'🇳🇱',retireAge:67,taxRate:37,costIdx:75,healthScore:90,pillar2Strength:95,portability:90,eurozone:true,ppp:0.82,currency:'EUR'},
+  CH:{name:'Switzerland',flag:'🇨🇭',retireAge:65,taxRate:12,costIdx:120,healthScore:95,pillar2Strength:92,portability:78,eurozone:false,ppp:1.21,currency:'CHF'},
+  FR:{name:'France',flag:'🇫🇷',retireAge:64,taxRate:30,costIdx:72,healthScore:92,pillar2Strength:70,portability:82,eurozone:true,ppp:0.78,currency:'EUR'},
+  AT:{name:'Austria',flag:'🇦🇹',retireAge:65,taxRate:25,costIdx:68,healthScore:87,pillar2Strength:65,portability:84,eurozone:true,ppp:0.77,currency:'EUR'},
+  ES:{name:'Spain',flag:'🇪🇸',retireAge:67,taxRate:24,costIdx:55,healthScore:86,pillar2Strength:45,portability:80,eurozone:true,ppp:0.64,currency:'EUR'},
+  PT:{name:'Portugal',flag:'🇵🇹',retireAge:66,taxRate:14,costIdx:45,healthScore:80,pillar2Strength:40,portability:78,eurozone:true,ppp:0.56,currency:'EUR'},
+  IT:{name:'Italy',flag:'🇮🇹',retireAge:67,taxRate:26,costIdx:60,healthScore:84,pillar2Strength:55,portability:80,eurozone:true,ppp:0.70,currency:'EUR'},
+  IE:{name:'Ireland',flag:'🇮🇪',retireAge:66,taxRate:20,costIdx:82,healthScore:85,pillar2Strength:72,portability:82,eurozone:true,ppp:0.84,currency:'EUR'},
+  SE:{name:'Sweden',flag:'🇸🇪',retireAge:65,taxRate:30,costIdx:76,healthScore:91,pillar2Strength:88,portability:88,eurozone:false,ppp:0.85,currency:'SEK'},
+  DK:{name:'Denmark',flag:'🇩🇰',retireAge:67,taxRate:32,costIdx:80,healthScore:90,pillar2Strength:90,portability:88,eurozone:false,ppp:0.87,currency:'DKK'},
+  BE:{name:'Belgium',flag:'🇧🇪',retireAge:65,taxRate:30,costIdx:70,healthScore:86,pillar2Strength:65,portability:85,eurozone:true,ppp:0.78,currency:'EUR'},
+  LU:{name:'Luxembourg',flag:'🇱🇺',retireAge:65,taxRate:18,costIdx:90,healthScore:88,pillar2Strength:78,portability:90,eurozone:true,ppp:0.96,currency:'EUR'},
+  JP:{name:'Japan',flag:'🇯🇵',retireAge:65,taxRate:20,costIdx:72,healthScore:96,pillar2Strength:60,portability:55,eurozone:false,ppp:0.68,currency:'JPY'},
+  AU:{name:'Australia',flag:'🇦🇺',retireAge:67,taxRate:15,costIdx:78,healthScore:82,pillar2Strength:85,portability:65,eurozone:false,ppp:0.95,currency:'AUD'},
+  CA:{name:'Canada',flag:'🇨🇦',retireAge:65,taxRate:15,costIdx:72,healthScore:83,pillar2Strength:75,portability:70,eurozone:false,ppp:0.82,currency:'CAD'}
 };
 
-/* Bilateral social security agreements (simplified) */
-var AG={};
-function agKey(a,b){return[a,b].sort().join('-')}
-function setAg(a,b,data){AG[agKey(a,b)]=data}
-/* EU/EEA countries have multilateral coordination via EC Regulation 883/2004 */
-var euCountries=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];
-for(var ei=0;ei<euCountries.length;ei++){for(var ej=ei+1;ej<euCountries.length;ej++){setAg(euCountries[ei],euCountries[ej],{type:'EU Regulation 883/2004',totalization:true,portability:'Full',taxTreaty:true,healthCover:true,notes:'Full pension coordination under EU rules. Periods aggregated across member states.'})}}
-/* UK post-Brexit */
-var ukPartners=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];
-for(var ui=0;ui<ukPartners.length;ui++){setAg('UK',ukPartners[ui],{type:'UK-EU Trade & Cooperation Agreement',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'Post-Brexit TCA preserves pension aggregation but with some limitations on future accrual.'})}
-setAg('UK','CH',{type:'Bilateral SSA',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'Bilateral agreement covers state pension totalization.'});
-setAg('UK','US',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Totalization agreement prevents double contributions. Limited private pension portability.'});
-setAg('UK','JP',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Covers state pension totalization only.'});
-setAg('UK','CA',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension reciprocity agreement.'});
-setAg('UK','AU',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:true,notes:'Reciprocal healthcare (Medicare). State pension totalization.'});
-/* US agreements */
-var usPartners=['DE','NL','FR','AT','IT','IE','SE','DK','BE','LU','ES','PT'];
-for(var usi=0;usi<usPartners.length;usi++){setAg('US',usPartners[usi],{type:'Bilateral Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Eliminates dual Social Security taxation. Limited to state pension; 401k/IRA not covered.'})}
-setAg('US','CH',{type:'Bilateral Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Social Security totalization. Swiss 2nd pillar has special withdrawal rules for emigrants.'});
-setAg('US','CA',{type:'Bilateral Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'CPP/QPP and Social Security totalization.'});
-setAg('US','AU',{type:'Bilateral Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Social Security and Age Pension totalization.'});
-setAg('US','JP',{type:'Bilateral Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Prevents dual SS contributions between US and Japan.'});
-/* CH with EU */
-var chEuPartners=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];
-for(var chi=0;chi<chEuPartners.length;chi++){setAg('CH',chEuPartners[chi],{type:'CH-EU Bilateral Agreement',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'Switzerland participates in EU coordination via bilateral agreements. 2nd pillar (BVG) has specific portability rules.'})}
-/* JP, AU, CA with EU */
-var jpEu=['DE','FR','NL','BE','LU','IE'];for(var ji=0;ji<jpEu.length;ji++){setAg('JP',jpEu[ji],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization only.'})}
-setAg('JP','CH',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
-setAg('AU','CA',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:true,notes:'Reciprocal healthcare and pension totalization.'});
-var auEu=['DE','NL','IE','IT','AT','BE','DK'];for(var ai=0;ai<auEu.length;ai++){setAg('AU',auEu[ai],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Totalization of Age Pension and state pensions.'})}
-var caEu=['DE','FR','NL','AT','IT','IE','SE','DK','BE','LU'];for(var ci=0;ci<caEu.length;ci++){setAg('CA',caEu[ci],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'CPP/QPP totalization with state pensions.'})}
-setAg('CA','AU',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
+/* AGREEMENTS */
+var AG={};function agK(a,b){return[a,b].sort().join('-')}function sA(a,b,d){AG[agK(a,b)]=d}
+var eu=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];
+for(var ei=0;ei<eu.length;ei++)for(var ej=ei+1;ej<eu.length;ej++)sA(eu[ei],eu[ej],{type:'EU Reg 883/2004',totalization:true,portability:'Full',taxTreaty:true,healthCover:true,notes:'Full pension coordination. Periods aggregated across member states.'});
+var ukP=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];for(var ui=0;ui<ukP.length;ui++)sA('UK',ukP[ui],{type:'UK-EU TCA',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'Post-Brexit TCA preserves aggregation with some limitations.'});
+sA('UK','CH',{type:'Bilateral SSA',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'State pension totalization.'});
+sA('UK','US',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Prevents double contributions. Limited private portability.'});
+sA('UK','JP',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
+sA('UK','CA',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension reciprocity.'});
+sA('UK','AU',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:true,notes:'Reciprocal Medicare. State pension totalization.'});
+var usP=['DE','NL','FR','AT','IT','IE','SE','DK','BE','LU','ES','PT'];for(var usi=0;usi<usP.length;usi++)sA('US',usP[usi],{type:'Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Eliminates dual SS taxation. 401k/IRA not covered.'});
+sA('US','CH',{type:'Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'SS totalization. BVG has emigrant withdrawal rules.'});
+sA('US','CA',{type:'Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'CPP/QPP and SS totalization.'});
+sA('US','AU',{type:'Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'SS and Age Pension totalization.'});
+sA('US','JP',{type:'Totalization Agreement',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Prevents dual SS contributions.'});
+var chE=['DE','NL','FR','AT','ES','PT','IT','IE','SE','DK','BE','LU'];for(var chi=0;chi<chE.length;chi++)sA('CH',chE[chi],{type:'CH-EU Bilateral',totalization:true,portability:'Partial',taxTreaty:true,healthCover:true,notes:'BVG has specific portability rules.'});
+var jpE=['DE','FR','NL','BE','LU','IE'];for(var ji=0;ji<jpE.length;ji++)sA('JP',jpE[ji],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
+sA('JP','CH',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
+sA('AU','CA',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:true,notes:'Reciprocal healthcare and totalization.'});
+var auE=['DE','NL','IE','IT','AT','BE','DK'];for(var ai=0;ai<auE.length;ai++)sA('AU',auE[ai],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'Age Pension totalization.'});
+var caE=['DE','FR','NL','AT','IT','IE','SE','DK','BE','LU'];for(var ci=0;ci<caE.length;ci++)sA('CA',caE[ci],{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'CPP/QPP totalization.'});
+sA('CA','AU',{type:'Bilateral SSA',totalization:true,portability:'Limited',taxTreaty:true,healthCover:false,notes:'State pension totalization.'});
+function gA(a,b){return AG[agK(a,b)]||{type:'No Agreement',totalization:false,portability:'None',taxTreaty:false,healthCover:false,notes:'No bilateral SSA. Portability restricted.'}}
 
-function getAgreement(a,b){return AG[agKey(a,b)]||{type:'No Agreement Found',totalization:false,portability:'None',taxTreaty:false,healthCover:false,notes:'No bilateral social security agreement identified. Pension portability may be restricted.'}}
-
-/* === CALCULATOR LOGIC === */
+/* CALCULATOR */
 var countryCount=2;
-
-function addCountry(){
-  if(countryCount>=3)return;
-  countryCount=3;
-  var sel=document.querySelector('.country-row[data-idx="0"] select');
-  var opts=sel.innerHTML;
-  var html='<div class="country-row" data-idx="2"><select class="country-sel" onchange="updateCalc()">'+opts+'</select><div class="remove-btn" onclick="removeCountry()">✕</div></div>';
-  document.getElementById('countrySelector').insertAdjacentHTML('beforeend',html);
-  document.getElementById('addCountryBtn').style.display='none';
-}
-function removeCountry(){
-  var rows=document.querySelectorAll('.country-row');
-  if(rows.length>2){rows[rows.length-1].remove();countryCount=2;document.getElementById('addCountryBtn').style.display='block'}
-}
+function addCountry(){if(countryCount>=3)return;countryCount=3;var opts=document.querySelector('.country-row[data-idx="0"] select').innerHTML;document.getElementById('countrySelector').insertAdjacentHTML('beforeend','<div class="country-row" data-idx="2"><select class="country-sel" onchange="updateCalc()">'+opts+'</select><div class="remove-btn" onclick="removeCountry()">✕</div></div>');document.getElementById('addCountryBtn').style.display='none'}
+function removeCountry(){var rows=document.querySelectorAll('.country-row');if(rows.length>2){rows[rows.length-1].remove();countryCount=2;document.getElementById('addCountryBtn').style.display='block'}}
 function updateCalc(){}
 
 function runCalculator(){
-  var sels=document.querySelectorAll('.country-sel');
-  var countries=[];
+  var sels=document.querySelectorAll('.country-sel');var countries=[];
   for(var i=0;i<sels.length;i++){if(sels[i].value&&countries.indexOf(sels[i].value)===-1)countries.push(sels[i].value)}
-  if(countries.length<2){toast('⚠️','Please select at least 2 countries');return}
-
+  if(countries.length<2){toast('⚠️','Select at least 2 countries');return}
   var amt=parseFloat(document.getElementById('pensionAmt').value)||247834;
-  var targetAge=parseInt(document.getElementById('retireAge').value)||65;
-  var results=[];
-  var colors=['#60a5fa','#a78bfa','#34d399'];
+  var tAge=parseInt(document.getElementById('retireAge').value)||65;
+  var results=[];var colors=['#60a5fa','#a78bfa','#34d399'];
 
   for(var ci=0;ci<countries.length;ci++){
-    var code=countries[ci];
-    var c=C[code];
-    /* Weighted scoring:
-       - Cost of Living (inverted): 25% — lower cost = higher score
-       - Tax efficiency (inverted): 20% — lower tax = better
-       - Healthcare: 15%
-       - Pension system strength: 15%
-       - Portability: 15%
-       - Retirement age fit: 10% — how well target matches country age
-    */
+    var code=countries[ci];var c=C[code];
     var costScore=Math.max(0,Math.min(100,100-((c.costIdx-40)*1.2)));
     var taxScore=Math.max(0,Math.min(100,100-(c.taxRate*2.2)));
-    var healthScore=c.healthScore;
-    var pillarScore=c.pillar2Strength;
-    var portScore=c.portability;
-    var ageDiff=Math.abs(targetAge-c.retireAge);
+    var ageDiff=Math.abs(tAge-c.retireAge);
     var ageScore=ageDiff===0?100:ageDiff<=1?85:ageDiff<=2?70:ageDiff<=3?55:40;
-
-    /* Check agreements with other selected countries */
     var agBonus=0;
-    for(var oi=0;oi<countries.length;oi++){
-      if(oi===ci)continue;
-      var ag=getAgreement(code,countries[oi]);
-      if(ag.totalization)agBonus+=5;
-      if(ag.portability==='Full')agBonus+=5;
-      else if(ag.portability==='Partial')agBonus+=3;
-      if(ag.taxTreaty)agBonus+=3;
-      if(ag.healthCover)agBonus+=2;
-    }
-
-    var total=Math.round((costScore*.25+taxScore*.20+healthScore*.15+pillarScore*.15+portScore*.15+ageScore*.10)+agBonus);
-    total=Math.min(100,total);
-
-    var monthlyEst=Math.round((amt/(12*(Math.max(c.retireAge,targetAge)-30)))*(1-c.taxRate/100));
-
-    results.push({code:code,c:c,total:total,costScore:Math.round(costScore),taxScore:Math.round(taxScore),healthScore:healthScore,pillarScore:pillarScore,portScore:portScore,ageScore:ageScore,color:colors[ci],monthlyEst:monthlyEst});
+    for(var oi=0;oi<countries.length;oi++){if(oi===ci)continue;var ag=gA(code,countries[oi]);if(ag.totalization)agBonus+=5;if(ag.portability==='Full')agBonus+=5;else if(ag.portability==='Partial')agBonus+=3;if(ag.taxTreaty)agBonus+=3;if(ag.healthCover)agBonus+=2}
+    var total=Math.min(100,Math.round(costScore*.25+taxScore*.20+c.healthScore*.15+c.pillar2Strength*.15+c.portability*.15+ageScore*.10+agBonus));
+    var monthlyGross=Math.round(amt/(12*20));
+    var monthlyNet=Math.round(monthlyGross*(1-c.taxRate/100));
+    var pppMonthly=Math.round(monthlyNet/c.ppp);
+    results.push({code:code,c:c,total:total,costScore:Math.round(costScore),taxScore:Math.round(taxScore),ageScore:ageScore,color:colors[ci],monthlyGross:monthlyGross,monthlyNet:monthlyNet,pppMonthly:pppMonthly});
   }
-
   results.sort(function(a,b){return b.total-a.total});
 
-  /* Render winner */
+  /* Winner */
   var w=results[0];
-  var winnerHtml='<div class="flag">'+w.c.flag+'</div>';
-  winnerHtml+='<div class="rw-name">'+w.c.name+'</div>';
-  winnerHtml+='<div class="rw-tag">RECOMMENDED — Score: '+w.total+'/100</div>';
-  winnerHtml+='<div class="rw-summary">Based on your pension of €'+amt.toLocaleString()+', target retirement age of '+targetAge+', and the bilateral agreements between your selected countries, <strong>'+w.c.name+'</strong> offers the best combination of cost efficiency, tax treatment, healthcare quality, and pension portability.</div>';
-  document.getElementById('resultWinner').innerHTML=winnerHtml;
+  document.getElementById('resultWinner').innerHTML='<div class="flag">'+w.c.flag+'</div><div class="rw-name">'+w.c.name+'</div><div class="rw-tag">RECOMMENDED — '+w.total+'/100</div><div class="rw-summary">Based on €'+amt.toLocaleString()+' portfolio, age '+tAge+', bilateral agreements, and purchasing power, <strong>'+w.c.name+'</strong> offers the best retirement outcome.</div>';
+
+  /* PPP Comparison */
+  var pppH='<div class="ppp-card"><div class="ppp-title">💰 Purchasing Power Comparison</div><div style="font-size:11px;color:#64748b;margin-bottom:10px">What your monthly pension buys in each country (PPP-adjusted)</div><div class="ppp-grid">';
+  for(var pi=0;pi<results.length;pi++){var r=results[pi];pppH+='<div class="ppp-item"><div class="pv" style="color:'+r.color+'">€'+r.pppMonthly.toLocaleString()+'</div><div class="pl">'+r.c.flag+' '+r.c.name+'</div></div>'}
+  pppH+='</div></div>';
+  document.getElementById('pppSection').innerHTML=pppH;
 
   /* Score bars */
-  var barsHtml='';
+  var bH='';
   for(var ri=0;ri<results.length;ri++){
     var r=results[ri];
-    barsHtml+='<div class="score-country"><div class="sc-hdr"><div class="sc-name">'+r.c.flag+' '+r.c.name+'</div><div class="sc-score" style="color:'+r.color+'">'+r.total+'</div></div>';
-    var metrics=[{l:'Cost of Living',v:r.costScore},{l:'Tax Efficiency',v:r.taxScore},{l:'Healthcare',v:r.healthScore},{l:'Pension 2nd P.',v:r.pillarScore},{l:'Portability',v:r.portScore},{l:'Age Match',v:r.ageScore}];
-    for(var mi=0;mi<metrics.length;mi++){
-      var m=metrics[mi];
-      var barColor=m.v>=70?'#34d399':m.v>=45?'#fb923c':'#f87171';
-      barsHtml+='<div class="score-row"><div class="sr-label">'+m.l+'</div><div class="sr-bar"><div class="sr-fill" style="width:'+m.v+'%;background:'+barColor+'"></div></div><div class="sr-val" style="color:'+barColor+'">'+m.v+'</div></div>';
-    }
-    barsHtml+='<div style="margin-top:8px;font-size:12px;color:#94a3b8">Ret. age: '+r.c.retireAge+' · Tax: '+r.c.taxRate+'% · Est. monthly (net): €'+r.monthlyEst.toLocaleString()+'</div>';
-    barsHtml+='</div>';
+    bH+='<div class="score-country"><div class="sc-hdr"><div class="sc-name">'+r.c.flag+' '+r.c.name+'</div><div class="sc-score" style="color:'+r.color+'">'+r.total+'</div></div>';
+    var m=[{l:'Cost Living',v:r.costScore},{l:'Tax',v:r.taxScore},{l:'Healthcare',v:r.c.healthScore},{l:'Pension 2P',v:r.c.pillar2Strength},{l:'Portability',v:r.c.portability},{l:'Age Match',v:r.ageScore}];
+    for(var mi=0;mi<m.length;mi++){var bc=m[mi].v>=70?'#34d399':m[mi].v>=45?'#fb923c':'#f87171';bH+='<div class="score-row"><div class="sr-label">'+m[mi].l+'</div><div class="sr-bar"><div class="sr-fill" style="width:'+m[mi].v+'%;background:'+bc+'"></div></div><div class="sr-val" style="color:'+bc+'">'+m[mi].v+'</div></div>'}
+    bH+='<div class="sc-meta"><span>Ret: '+r.c.retireAge+'</span><span>Tax: '+r.c.taxRate+'%</span><span>Net/mo: €'+r.monthlyNet.toLocaleString()+'</span><span>PPP: €'+r.pppMonthly.toLocaleString()+'</span></div></div>';
   }
-  document.getElementById('scoreBars').innerHTML=barsHtml;
+  document.getElementById('scoreBars').innerHTML=bH;
 
-  /* Agreement cards */
-  var agHtml='';
-  for(var ai=0;ai<countries.length;ai++){
-    for(var bi=ai+1;bi<countries.length;bi++){
-      var ag=getAgreement(countries[ai],countries[bi]);
-      var ca=C[countries[ai]],cb=C[countries[bi]];
-      agHtml+='<div class="agreement-card">';
-      agHtml+='<div class="ag-title">'+ca.flag+' '+ca.name+' ↔ '+cb.flag+' '+cb.name+'</div>';
-      agHtml+='<div class="ag-row"><span class="agl">Agreement Type</span><span class="agv">'+ag.type+'</span></div>';
-      agHtml+='<div class="ag-row"><span class="agl">Totalization</span><span class="agv '+(ag.totalization?'yes':'no')+'">'+(ag.totalization?'Yes':'No')+'</span></div>';
-      agHtml+='<div class="ag-row"><span class="agl">Portability</span><span class="agv '+(ag.portability==='Full'?'yes':ag.portability==='Partial'?'partial':'no')+'">'+ag.portability+'</span></div>';
-      agHtml+='<div class="ag-row"><span class="agl">Tax Treaty</span><span class="agv '+(ag.taxTreaty?'yes':'no')+'">'+(ag.taxTreaty?'Yes':'No')+'</span></div>';
-      agHtml+='<div class="ag-row"><span class="agl">Health Coverage</span><span class="agv '+(ag.healthCover?'yes':'no')+'">'+(ag.healthCover?'Yes':'No')+'</span></div>';
-      agHtml+='<div style="font-size:11px;color:#94a3b8;margin-top:8px;line-height:1.4">'+ag.notes+'</div>';
-      agHtml+='</div>';
-    }
-  }
-  document.getElementById('agreementCards').innerHTML=agHtml;
-
+  /* Agreements */
+  var aH='';
+  for(var ai=0;ai<countries.length;ai++){for(var bi=ai+1;bi<countries.length;bi++){
+    var ag=gA(countries[ai],countries[bi]);var ca=C[countries[ai]],cb=C[countries[bi]];
+    aH+='<div class="agreement-card"><div class="ag-title">'+ca.flag+' '+ca.name+' ↔ '+cb.flag+' '+cb.name+'</div>';
+    aH+='<div class="ag-row"><span class="agl">Agreement</span><span class="agv">'+ag.type+'</span></div>';
+    aH+='<div class="ag-row"><span class="agl">Totalization</span><span class="agv '+(ag.totalization?'yes':'no')+'">'+(ag.totalization?'Yes':'No')+'</span></div>';
+    aH+='<div class="ag-row"><span class="agl">Portability</span><span class="agv '+(ag.portability==='Full'?'yes':ag.portability==='Partial'?'partial':'no')+'">'+ag.portability+'</span></div>';
+    aH+='<div class="ag-row"><span class="agl">Tax Treaty</span><span class="agv '+(ag.taxTreaty?'yes':'no')+'">'+(ag.taxTreaty?'Yes':'No')+'</span></div>';
+    aH+='<div class="ag-row"><span class="agl">Health Cover</span><span class="agv '+(ag.healthCover?'yes':'no')+'">'+(ag.healthCover?'Yes':'No')+'</span></div>';
+    aH+='<div class="ag-note">'+ag.notes+'</div></div>';
+  }}
+  document.getElementById('agreementCards').innerHTML=aH;
   document.getElementById('resultCard').classList.add('show');
-
   setTimeout(function(){document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'start'})},100);
 }
 </script>
