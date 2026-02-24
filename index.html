@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PensionDLT">
+<title>PensionDLT — Decentralized Pension Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e17;
+  --bg-card: #111827;
+  --bg-card-alt: #1a2235;
+  --bg-glass: rgba(17, 24, 39, 0.7);
+  --border: rgba(255,255,255,0.06);
+  --border-active: rgba(99,179,237,0.3);
+  --text: #e8ecf4;
+  --text-secondary: #8b95a8;
+  --text-muted: #525d73;
+  --accent: #63b3ed;
+  --accent-glow: rgba(99,179,237,0.15);
+  --green: #68d391;
+  --green-bg: rgba(104,211,145,0.1);
+  --orange: #f6ad55;
+  --orange-bg: rgba(246,173,85,0.1);
+  --red: #fc8181;
+  --purple: #b794f4;
+  --purple-bg: rgba(183,148,244,0.1);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --safe-top: env(safe-area-inset-top, 20px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --nav-height: 72px;
+}
+
+- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+font-family: ‘DM Sans’, -apple-system, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+overflow-x: hidden;
+-webkit-font-smoothing: antialiased;
+}
+
+/* Background mesh gradient */
+body::before {
+content: ‘’;
+position: fixed;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background:
+radial-gradient(ellipse at 20% 20%, rgba(99,179,237,0.08) 0%, transparent 50%),
+radial-gradient(ellipse at 80% 80%, rgba(183,148,244,0.06) 0%, transparent 50%),
+radial-gradient(ellipse at 50% 50%, rgba(104,211,145,0.03) 0%, transparent 60%);
+z-index: 0;
+pointer-events: none;
+}
+
+.app {
+position: relative;
+z-index: 1;
+padding-bottom: calc(var(–nav-height) + var(–safe-bottom) + 12px);
+}
+
+/* ===== Header ===== */
+.header {
+padding: calc(var(–safe-top) + 12px) 20px 16px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.header-left h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 600;
+letter-spacing: -0.3px;
+}
+
+.header-left h1 span { color: var(–accent); }
+
+.header-left p {
+font-size: 13px;
+color: var(–text-secondary);
+margin-top: 2px;
+}
+
+.header-right {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+.header-icon {
+width: 40px;
+height: 40px;
+border-radius: 12px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.header-icon:active { transform: scale(0.92); }
+
+.header-icon svg { width: 20px; height: 20px; color: var(–text-secondary); }
+
+.avatar {
+width: 40px;
+height: 40px;
+border-radius: 12px;
+background: linear-gradient(135deg, var(–accent), var(–purple));
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 600;
+font-size: 15px;
+color: white;
+}
+
+/* ===== Sections ===== */
+.section { padding: 0 20px; margin-bottom: 24px; }
+.section-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 14px;
+}
+.section-title {
+font-size: 16px;
+font-weight: 600;
+letter-spacing: -0.2px;
+}
+.section-link {
+font-size: 13px;
+color: var(–accent);
+cursor: pointer;
+font-weight: 500;
+}
+
+/* ===== DLT Status Banner ===== */
+.dlt-status {
+margin: 0 20px 20px;
+padding: 14px 16px;
+background: linear-gradient(135deg, rgba(99,179,237,0.08), rgba(183,148,244,0.08));
+border: 1px solid rgba(99,179,237,0.15);
+border-radius: var(–radius);
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.dlt-pulse {
+width: 10px; height: 10px;
+background: var(–green);
+border-radius: 50%;
+box-shadow: 0 0 8px var(–green);
+animation: pulse 2s infinite;
+flex-shrink: 0;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; box-shadow: 0 0 8px var(–green); }
+50% { opacity: 0.6; box-shadow: 0 0 16px var(–green); }
+}
+
+.dlt-status-text { font-size: 13px; color: var(–text-secondary); line-height: 1.4; }
+.dlt-status-text strong { color: var(–text); font-weight: 600; }
+
+/* ===== Portfolio Card ===== */
+.portfolio-card {
+margin: 0 20px 24px;
+padding: 24px 20px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+position: relative;
+overflow: hidden;
+}
+
+.portfolio-card::after {
+content: ‘’;
+position: absolute;
+top: 0; right: 0;
+width: 180px; height: 180px;
+background: radial-gradient(circle, rgba(99,179,237,0.06) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.portfolio-label {
+font-size: 13px;
+color: var(–text-secondary);
+margin-bottom: 6px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.portfolio-label svg { width: 14px; height: 14px; }
+
+.portfolio-value {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 34px;
+font-weight: 600;
+letter-spacing: -1px;
+margin-bottom: 4px;
+}
+
+.portfolio-change {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+font-size: 13px;
+font-weight: 500;
+color: var(–green);
+background: var(–green-bg);
+padding: 3px 10px;
+border-radius: 20px;
+margin-bottom: 20px;
+}
+
+.portfolio-breakdown {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+gap: 12px;
+padding-top: 18px;
+border-top: 1px solid var(–border);
+}
+
+.breakdown-item { text-align: center; }
+.breakdown-item .label {
+font-size: 11px;
+color: var(–text-muted);
+text-transform: uppercase;
+letter-spacing: 0.8px;
+margin-bottom: 4px;
+}
+.breakdown-item .value {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 15px;
+font-weight: 600;
+}
+
+/* ===== Pyramid Architecture Viz ===== */
+.pyramid-card {
+margin: 0 20px 24px;
+padding: 20px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+}
+
+.pyramid-title {
+font-size: 14px;
+font-weight: 600;
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.pyramid-title span {
+font-size: 11px;
+color: var(–text-muted);
+font-weight: 400;
+text-transform: uppercase;
+letter-spacing: 0.8px;
+}
+
+.pyramid-visual {
+position: relative;
+width: 100%;
+padding: 10px 0;
+}
+
+.pyramid-layer {
+margin: 0 auto 8px;
+padding: 14px;
+border-radius: var(–radius-sm);
+text-align: center;
+position: relative;
+transition: all 0.3s;
+cursor: pointer;
+}
+
+.pyramid-layer:active { transform: scale(0.97); }
+
+.pyramid-layer.gui {
+width: 65%;
+background: linear-gradient(135deg, rgba(99,179,237,0.12), rgba(99,179,237,0.06));
+border: 1px solid rgba(99,179,237,0.25);
+}
+
+.pyramid-layer.bpl {
+width: 85%;
+background: linear-gradient(135deg, rgba(183,148,244,0.12), rgba(183,148,244,0.06));
+border: 1px solid rgba(183,148,244,0.25);
+}
+
+.pyramid-layer.bta {
+width: 100%;
+background: linear-gradient(135deg, rgba(104,211,145,0.12), rgba(104,211,145,0.06));
+border: 1px solid rgba(104,211,145,0.25);
+}
+
+.pyramid-layer .layer-name {
+font-size: 12px;
+font-weight: 700;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+.pyramid-layer.gui .layer-name { color: var(–accent); }
+.pyramid-layer.bpl .layer-name { color: var(–purple); }
+.pyramid-layer.bta .layer-name { color: var(–green); }
+
+.pyramid-layer .layer-desc {
+font-size: 11px;
+color: var(–text-secondary);
+margin-top: 3px;
+}
+
+.bridging-indicator {
+text-align: center;
+padding: 4px 0;
+font-size: 11px;
+color: var(–text-muted);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+}
+
+.bridging-indicator .line {
+width: 40px;
+height: 1px;
+background: linear-gradient(90deg, transparent, var(–text-muted), transparent);
+}
+
+/* ===== Holdings / Pensions list ===== */
+.pension-list { display: flex; flex-direction: column; gap: 10px; }
+
+.pension-item {
+padding: 16px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+display: flex;
+align-items: center;
+gap: 14px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.pension-item:active { transform: scale(0.98); background: var(–bg-card-alt); }
+
+.pension-icon {
+width: 44px; height: 44px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+flex-shrink: 0;
+}
+
+.pension-icon.employer { background: rgba(99,179,237,0.12); }
+.pension-icon.prev { background: rgba(246,173,85,0.12); }
+.pension-icon.private { background: rgba(183,148,244,0.12); }
+
+.pension-info { flex: 1; min-width: 0; }
+.pension-info .name {
+font-size: 14px;
+font-weight: 600;
+margin-bottom: 2px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.pension-info .type {
+font-size: 12px;
+color: var(–text-secondary);
+}
+
+.pension-value {
+text-align: right;
+flex-shrink: 0;
+}
+.pension-value .amount {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 15px;
+font-weight: 600;
+}
+.pension-value .perf {
+font-size: 11px;
+font-weight: 500;
+text-align: right;
+}
+.pension-value .perf.up { color: var(–green); }
+.pension-value .perf.down { color: var(–red); }
+
+/* ===== Transaction Timeline ===== */
+.tx-list { display: flex; flex-direction: column; gap: 8px; }
+
+.tx-item {
+padding: 14px 16px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius-sm);
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.tx-dot {
+width: 8px; height: 8px;
+border-radius: 50%;
+flex-shrink: 0;
+}
+
+.tx-dot.confirmed { background: var(–green); box-shadow: 0 0 6px rgba(104,211,145,0.4); }
+.tx-dot.pending { background: var(–orange); animation: pulse 1.5s infinite; }
+
+.tx-info { flex: 1; }
+.tx-info .desc { font-size: 13px; font-weight: 500; }
+.tx-info .meta { font-size: 11px; color: var(–text-muted); margin-top: 2px; }
+
+.tx-hash {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 10px;
+color: var(–text-muted);
+background: rgba(255,255,255,0.03);
+padding: 3px 8px;
+border-radius: 4px;
+}
+
+/* ===== Quick Actions ===== */
+.actions-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+
+.action-btn {
+padding: 18px 14px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+text-align: center;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.action-btn:active { transform: scale(0.96); background: var(–bg-card-alt); }
+
+.action-btn svg {
+width: 24px; height: 24px;
+margin: 0 auto 8px;
+display: block;
+}
+
+.action-btn .action-label {
+font-size: 13px;
+font-weight: 600;
+}
+
+.action-btn .action-desc {
+font-size: 11px;
+color: var(–text-muted);
+margin-top: 3px;
+}
+
+.action-btn.transfer { border-color: rgba(99,179,237,0.2); }
+.action-btn.transfer svg { color: var(–accent); }
+.action-btn.update { border-color: rgba(104,211,145,0.2); }
+.action-btn.update svg { color: var(–green); }
+.action-btn.audit { border-color: rgba(183,148,244,0.2); }
+.action-btn.audit svg { color: var(–purple); }
+.action-btn.docs { border-color: rgba(246,173,85,0.2); }
+.action-btn.docs svg { color: var(–orange); }
+
+/* ===== Node Health ===== */
+.node-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 6px;
+}
+
+.node-cell {
+aspect-ratio: 1;
+border-radius: var(–radius-xs);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 9px;
+font-weight: 600;
+color: var(–text-secondary);
+}
+
+.node-cell.active {
+background: rgba(104,211,145,0.12);
+border: 1px solid rgba(104,211,145,0.25);
+color: var(–green);
+}
+
+.node-cell.idle {
+background: rgba(246,173,85,0.08);
+border: 1px solid rgba(246,173,85,0.2);
+color: var(–orange);
+}
+
+.node-cell.offline {
+background: rgba(255,255,255,0.02);
+border: 1px solid var(–border);
+color: var(–text-muted);
+}
+
+.node-legend {
+display: flex;
+gap: 16px;
+margin-top: 12px;
+justify-content: center;
+}
+
+.node-legend-item {
+display: flex;
+align-items: center;
+gap: 5px;
+font-size: 11px;
+color: var(–text-secondary);
+}
+
+.node-legend-dot {
+width: 6px; height: 6px;
+border-radius: 50%;
+}
+
+/* ===== Bottom Nav ===== */
+.bottom-nav {
+position: fixed;
+bottom: 0;
+left: 0; right: 0;
+height: calc(var(–nav-height) + var(–safe-bottom));
+padding-bottom: var(–safe-bottom);
+background: rgba(10,14,23,0.92);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border-top: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-around;
+z-index: 100;
+}
+
+.nav-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+cursor: pointer;
+padding: 8px 16px;
+transition: all 0.2s;
+}
+
+.nav-item:active { transform: scale(0.9); }
+
+.nav-item svg { width: 22px; height: 22px; color: var(–text-muted); transition: color 0.2s; }
+.nav-item span { font-size: 10px; color: var(–text-muted); font-weight: 500; transition: color 0.2s; }
+
+.nav-item.active svg { color: var(–accent); }
+.nav-item.active span { color: var(–accent); }
+
+/* ===== Modals/Sheets ===== */
+.sheet-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.6);
+z-index: 200;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.3s;
+}
+
+.sheet-overlay.active { opacity: 1; pointer-events: all; }
+
+.sheet {
+position: fixed;
+bottom: 0;
+left: 0; right: 0;
+background: var(–bg-card);
+border-radius: 24px 24px 0 0;
+padding: 16px 20px calc(var(–safe-bottom) + 24px);
+z-index: 201;
+transform: translateY(100%);
+transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+max-height: 85vh;
+overflow-y: auto;
+}
+
+.sheet.active { transform: translateY(0); }
+
+.sheet-handle {
+width: 36px; height: 4px;
+background: var(–text-muted);
+border-radius: 2px;
+margin: 0 auto 18px;
+}
+
+.sheet h2 {
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 4px;
+}
+
+.sheet p.subtitle {
+font-size: 13px;
+color: var(–text-secondary);
+margin-bottom: 20px;
+line-height: 1.5;
+}
+
+.sheet-field {
+margin-bottom: 16px;
+}
+
+.sheet-field label {
+font-size: 12px;
+font-weight: 600;
+color: var(–text-secondary);
+text-transform: uppercase;
+letter-spacing: 0.6px;
+display: block;
+margin-bottom: 6px;
+}
+
+.sheet-field input, .sheet-field select {
+width: 100%;
+padding: 14px 16px;
+background: var(–bg);
+border: 1px solid var(–border);
+border-radius: var(–radius-sm);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 15px;
+outline: none;
+transition: border-color 0.2s;
+appearance: none;
+}
+
+.sheet-field input:focus, .sheet-field select:focus {
+border-color: var(–border-active);
+}
+
+.sheet-btn {
+width: 100%;
+padding: 16px;
+background: linear-gradient(135deg, var(–accent), #7c9cf7);
+border: none;
+border-radius: var(–radius-sm);
+color: white;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+margin-top: 8px;
+transition: all 0.2s;
+}
+
+.sheet-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+/* ===== Page transitions ===== */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s; }
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(8px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Staggered load animations ===== */
+.stagger { opacity: 0; transform: translateY(12px); animation: staggerIn 0.5s forwards; }
+.stagger:nth-child(1) { animation-delay: 0.05s; }
+.stagger:nth-child(2) { animation-delay: 0.1s; }
+.stagger:nth-child(3) { animation-delay: 0.15s; }
+.stagger:nth-child(4) { animation-delay: 0.2s; }
+.stagger:nth-child(5) { animation-delay: 0.25s; }
+.stagger:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes staggerIn {
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Stats Grid (Blockchain page) ===== */
+.stats-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-bottom: 24px;
+}
+
+.stat-card {
+padding: 16px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+}
+
+.stat-card .stat-label {
+font-size: 11px;
+color: var(–text-muted);
+text-transform: uppercase;
+letter-spacing: 0.8px;
+margin-bottom: 6px;
+}
+
+.stat-card .stat-value {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 22px;
+font-weight: 600;
+}
+
+.stat-card .stat-sub {
+font-size: 11px;
+color: var(–text-secondary);
+margin-top: 2px;
+}
+
+/* ===== Transfer form elements ===== */
+.transfer-preview {
+background: var(–bg);
+border: 1px solid var(–border);
+border-radius: var(–radius-sm);
+padding: 16px;
+margin: 16px 0;
+}
+
+.transfer-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 6px 0;
+}
+
+.transfer-row .tr-label { font-size: 13px; color: var(–text-secondary); }
+.transfer-row .tr-value { font-size: 13px; font-weight: 600; }
+.transfer-row .tr-value.mono { font-family: ‘JetBrains Mono’, monospace; font-size: 12px; }
+
+.transfer-arrow {
+text-align: center;
+padding: 8px 0;
+color: var(–accent);
+}
+
+/* ===== Mini chart (sparkline) ===== */
+.sparkline-container {
+margin: 16px 0 4px;
+height: 60px;
+position: relative;
+}
+
+.sparkline-svg {
+width: 100%;
+height: 100%;
+}
+
+/* ===== Profile / Settings page ===== */
+.profile-header {
+text-align: center;
+padding: 20px 0 28px;
+}
+
+.profile-avatar {
+width: 72px; height: 72px;
+border-radius: 20px;
+background: linear-gradient(135deg, var(–accent), var(–purple));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 28px;
+font-weight: 700;
+color: white;
+margin: 0 auto 12px;
+}
+
+.profile-name {
+font-size: 20px;
+font-weight: 700;
+}
+
+.profile-id {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 12px;
+color: var(–text-muted);
+margin-top: 4px;
+}
+
+.settings-group {
+margin-bottom: 24px;
+}
+
+.settings-group-title {
+font-size: 11px;
+color: var(–text-muted);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 8px;
+padding-left: 4px;
+}
+
+.settings-item {
+padding: 14px 16px;
+background: var(–bg-card);
+border: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 12px;
+cursor: pointer;
+transition: background 0.2s;
+}
+
+.settings-item:first-of-type { border-radius: var(–radius-sm) var(–radius-sm) 0 0; }
+.settings-item:last-of-type { border-radius: 0 0 var(–radius-sm) var(–radius-sm); }
+.settings-item:only-of-type { border-radius: var(–radius-sm); }
+.settings-item + .settings-item { border-top: none; }
+
+.settings-item:active { background: var(–bg-card-alt); }
+
+.settings-item svg { width: 20px; height: 20px; color: var(–text-secondary); flex-shrink: 0; }
+.settings-item .si-text { flex: 1; font-size: 14px; }
+.settings-item .si-chevron { color: var(–text-muted); font-size: 16px; }
+
+/* Toast notification */
+.toast {
+position: fixed;
+top: calc(var(–safe-top) + 12px);
+left: 20px; right: 20px;
+padding: 14px 18px;
+background: var(–bg-card-alt);
+border: 1px solid rgba(104,211,145,0.3);
+border-radius: var(–radius-sm);
+display: flex;
+align-items: center;
+gap: 10px;
+z-index: 300;
+transform: translateY(-120%);
+transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+font-size: 13px;
+font-weight: 500;
+}
+
+.toast.show { transform: translateY(0); }
+.toast .toast-icon { font-size: 18px; }
+</style>
+
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ==================== DASHBOARD PAGE ==================== -->
+
+  <div class="page active" id="page-dashboard">
+    <header class="header stagger">
+      <div class="header-left">
+        <h1>Pension<span>DLT</span></h1>
+        <p>Decentralized Pension Administration</p>
+      </div>
+      <div class="header-right">
+        <div class="header-icon" onclick="showToast('🔔', 'No new notifications')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div class="avatar">BK</div>
+      </div>
+    </header>
+
+```
+<!-- DLT Network Status -->
+<div class="dlt-status stagger">
+  <div class="dlt-pulse"></div>
+  <div class="dlt-status-text">
+    <strong>Blockchain Network Active</strong> — 15/15 nodes synced · Block #2,847,391 · 1.2s finality
+  </div>
+</div>
+
+<!-- Portfolio Overview -->
+<div class="portfolio-card stagger">
+  <div class="portfolio-label">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    Total Pension Portfolio
+  </div>
+  <div class="portfolio-value">€247,834</div>
+  <div class="portfolio-change">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    +8.3% YTD
+  </div>
+
+  <!-- Sparkline -->
+  <div class="sparkline-container">
+    <svg class="sparkline-svg" viewBox="0 0 300 60" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(99,179,237,0.25)"/>
+          <stop offset="100%" stop-color="rgba(99,179,237,0)"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,45 L25,42 50,38 75,40 100,35 125,32 150,28 175,30 200,22 225,18 250,15 275,12 300,8 L300,60 L0,60 Z" fill="url(#sparkGrad)"/>
+      <path d="M0,45 L25,42 50,38 75,40 100,35 125,32 150,28 175,30 200,22 225,18 250,15 275,12 300,8" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="portfolio-breakdown">
+    <div class="breakdown-item">
+      <div class="label">Employer DC</div>
+      <div class="value">€148,204</div>
+    </div>
+    <div class="breakdown-item">
+      <div class="label">Previous</div>
+      <div class="value">€67,430</div>
+    </div>
+    <div class="breakdown-item">
+      <div class="label">Private</div>
+      <div class="value">€32,200</div>
+    </div>
+  </div>
+</div>
+
+<!-- Architecture Pyramid -->
+<div class="pyramid-card stagger">
+  <div class="pyramid-title">
+    System Architecture
+    <span>Triumvirate</span>
+  </div>
+  <div class="pyramid-visual">
+    <div class="pyramid-layer gui" onclick="showLayerSheet('gui')">
+      <div class="layer-name">GUI</div>
+      <div class="layer-desc">Pension Holder Interface</div>
+    </div>
+    <div class="bridging-indicator">
+      <div class="line"></div>
+      Bridging
+      <div class="line"></div>
+    </div>
+    <div class="pyramid-layer bpl" onclick="showLayerSheet('bpl')">
+      <div class="layer-name">BPL</div>
+      <div class="layer-desc">Blockchain Platform</div>
+    </div>
+    <div class="bridging-indicator">
+      <div class="line"></div>
+      Bridging
+      <div class="line"></div>
+    </div>
+    <div class="pyramid-layer bta" onclick="showLayerSheet('bta')">
+      <div class="layer-name">BTA</div>
+      <div class="layer-desc">Blockchain Transfer Agency</div>
+    </div>
+  </div>
+</div>
+
+<!-- Holdings -->
+<div class="section stagger">
+  <div class="section-header">
+    <div class="section-title">My Pension Holdings</div>
+    <div class="section-link" onclick="navigateTo('blockchain')">View All</div>
+  </div>
+  <div class="pension-list">
+    <div class="pension-item" onclick="showHoldingSheet(0)">
+      <div class="pension-icon employer">🏢</div>
+      <div class="pension-info">
+        <div class="name">Siemens AG — DC Plan</div>
+        <div class="type">Active · Employer Match 6%</div>
+      </div>
+      <div class="pension-value">
+        <div class="amount">€148,204</div>
+        <div class="perf up">+12.1%</div>
+      </div>
+    </div>
+    <div class="pension-item" onclick="showHoldingSheet(1)">
+      <div class="pension-icon prev">📋</div>
+      <div class="pension-info">
+        <div class="name">Allianz GmbH — Previous</div>
+        <div class="type">Vested · Transferred via BTA</div>
+      </div>
+      <div class="pension-value">
+        <div class="amount">€67,430</div>
+        <div class="perf up">+5.7%</div>
+      </div>
+    </div>
+    <div class="pension-item" onclick="showHoldingSheet(2)">
+      <div class="pension-icon private">🔐</div>
+      <div class="pension-info">
+        <div class="name">Private Pension — Riester</div>
+        <div class="type">Active · Self-funded</div>
+      </div>
+      <div class="pension-value">
+        <div class="amount">€32,200</div>
+        <div class="perf down">-1.2%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="section stagger">
+  <div class="section-header">
+    <div class="section-title">Quick Actions</div>
+  </div>
+  <div class="actions-grid">
+    <div class="action-btn transfer" onclick="openTransferSheet()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17l-4-4 4-4"/><path d="M3 13h13M17 7l4 4-4 4"/><path d="M21 11H8"/></svg>
+      <div class="action-label">Transfer</div>
+      <div class="action-desc">Move pension via BTA</div>
+    </div>
+    <div class="action-btn update" onclick="openUpdateSheet()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+      <div class="action-label">Update Info</div>
+      <div class="action-desc">Address & life events</div>
+    </div>
+    <div class="action-btn audit" onclick="showToast('🔍', 'Audit trail loaded — 847 entries')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+      <div class="action-label">Audit Trail</div>
+      <div class="action-desc">Full DLT history</div>
+    </div>
+    <div class="action-btn docs" onclick="showToast('📄', 'Documents synced to ledger')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>
+      <div class="action-label">Documents</div>
+      <div class="action-desc">Statements & proofs</div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Transactions -->
+<div class="section stagger">
+  <div class="section-header">
+    <div class="section-title">Recent Ledger Activity</div>
+    <div class="section-link">See All</div>
+  </div>
+  <div class="tx-list">
+    <div class="tx-item">
+      <div class="tx-dot confirmed"></div>
+      <div class="tx-info">
+        <div class="desc">Monthly Contribution — Siemens DC</div>
+        <div class="meta">Feb 1, 2026 · €1,240 · 3 confirmations</div>
+      </div>
+      <div class="tx-hash">0x8f3a…d2c1</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-dot confirmed"></div>
+      <div class="tx-info">
+        <div class="desc">Employer Match Deposited</div>
+        <div class="meta">Feb 1, 2026 · €744 · 3 confirmations</div>
+      </div>
+      <div class="tx-hash">0x2b7e…a4f9</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-dot pending"></div>
+      <div class="tx-info">
+        <div class="desc">Address Update Propagated</div>
+        <div class="meta">Jan 28, 2026 · Pending 1 node</div>
+      </div>
+      <div class="tx-hash">0xc1d4…0e8b</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-dot confirmed"></div>
+      <div class="tx-info">
+        <div class="desc">Fund Transfer — Allianz → Siemens</div>
+        <div class="meta">Jan 15, 2026 · €12,500 · BTA verified</div>
+      </div>
+      <div class="tx-hash">0x5fa1…7c3d</div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ==================== BLOCKCHAIN PAGE ==================== -->
+
+  <div class="page" id="page-blockchain">
+    <header class="header">
+      <div class="header-left">
+        <h1>Blockchain <span>Network</span></h1>
+        <p>BPL Infrastructure Status</p>
+      </div>
+    </header>
+
+```
+<div class="section">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Block Height</div>
+      <div class="stat-value" style="color: var(--accent);">2.84M</div>
+      <div class="stat-sub">~1.2s per block</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Active Nodes</div>
+      <div class="stat-value" style="color: var(--green);">15</div>
+      <div class="stat-sub">Min. required: 15</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Transactions</div>
+      <div class="stat-value">48.2K</div>
+      <div class="stat-sub">Last 30 days</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Finality</div>
+      <div class="stat-value" style="color: var(--purple);">1.2s</div>
+      <div class="stat-sub">Avg. confirmation</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Node Health Map</div>
+    <div class="section-link">Refresh</div>
+  </div>
+  <div class="node-grid">
+    <div class="node-cell active">N01</div>
+    <div class="node-cell active">N02</div>
+    <div class="node-cell active">N03</div>
+    <div class="node-cell active">N04</div>
+    <div class="node-cell active">N05</div>
+    <div class="node-cell active">N06</div>
+    <div class="node-cell active">N07</div>
+    <div class="node-cell idle">N08</div>
+    <div class="node-cell active">N09</div>
+    <div class="node-cell active">N10</div>
+    <div class="node-cell active">N11</div>
+    <div class="node-cell active">N12</div>
+    <div class="node-cell active">N13</div>
+    <div class="node-cell active">N14</div>
+    <div class="node-cell active">N15</div>
+  </div>
+  <div class="node-legend">
+    <div class="node-legend-item">
+      <div class="node-legend-dot" style="background:var(--green);"></div> Active
+    </div>
+    <div class="node-legend-item">
+      <div class="node-legend-dot" style="background:var(--orange);"></div> Syncing
+    </div>
+    <div class="node-legend-item">
+      <div class="node-legend-dot" style="background:var(--text-muted);"></div> Offline
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px">
+  <div class="section-header">
+    <div class="section-title">Stakeholder Connections</div>
+  </div>
+  <div class="pension-list">
+    <div class="pension-item">
+      <div class="pension-icon employer">🏛️</div>
+      <div class="pension-info">
+        <div class="name">Regulatory Authority (BaFin)</div>
+        <div class="type">Read-only node · Compliance auditor</div>
+      </div>
+    </div>
+    <div class="pension-item">
+      <div class="pension-icon prev">🏢</div>
+      <div class="pension-info">
+        <div class="name">Corporate Employers (12)</div>
+        <div class="type">Write access · Contribution nodes</div>
+      </div>
+    </div>
+    <div class="pension-item">
+      <div class="pension-icon private">📊</div>
+      <div class="pension-info">
+        <div class="name">External Auditors (3)</div>
+        <div class="type">Audit nodes · Quarterly verification</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px">
+  <div class="section-header">
+    <div class="section-title">Transfer Agency (BTA) Stats</div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Avg Transfer</div>
+      <div class="stat-value" style="font-size:18px;">2.4 hrs</div>
+      <div class="stat-sub" style="color:var(--green);">vs. 6-8 weeks legacy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Transfers MTD</div>
+      <div class="stat-value" style="font-size:18px;">1,247</div>
+      <div class="stat-sub">Cross-employer moves</div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ==================== TRANSFER PAGE ==================== -->
+
+  <div class="page" id="page-transfer">
+    <header class="header">
+      <div class="header-left">
+        <h1>Transfer <span>Center</span></h1>
+        <p>BTA-Powered Pension Transfers</p>
+      </div>
+    </header>
+
+```
+<div class="section">
+  <div class="dlt-status" style="border-color:rgba(183,148,244,0.2); background:linear-gradient(135deg,rgba(183,148,244,0.08),rgba(99,179,237,0.05));">
+    <div class="dlt-pulse" style="background:var(--purple); box-shadow:0 0 8px var(--purple);"></div>
+    <div class="dlt-status-text">
+      <strong>BTA Ready</strong> — Single shared ledger active. Transfers settle in ~2.4 hours vs. 6-8 weeks with legacy systems.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title" style="margin-bottom:16px;">Initiate Transfer</div>
+
+  <div class="sheet-field">
+    <label>From Pension Plan</label>
+    <select id="transfer-from" onchange="updateTransferPreview()">
+      <option value="allianz">Allianz GmbH — €67,430</option>
+      <option value="private">Private Pension — €32,200</option>
+    </select>
+  </div>
+
+  <div class="transfer-arrow">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </div>
+
+  <div class="sheet-field">
+    <label>To Pension Plan</label>
+    <select id="transfer-to">
+      <option value="siemens">Siemens AG — DC Plan</option>
+      <option value="new">New External Plan</option>
+    </select>
+  </div>
+
+  <div class="sheet-field">
+    <label>Transfer Type</label>
+    <select>
+      <option>Full Balance Transfer</option>
+      <option>Partial Transfer (Specify Amount)</option>
+      <option>Fund Unit Transfer</option>
+    </select>
+  </div>
+
+  <div class="transfer-preview">
+    <div class="transfer-row">
+      <span class="tr-label">Transfer Amount</span>
+      <span class="tr-value">€67,430.00</span>
+    </div>
+    <div class="transfer-row">
+      <span class="tr-label">Transaction Fee</span>
+      <span class="tr-value" style="color:var(--green);">€0.00</span>
+    </div>
+    <div class="transfer-row">
+      <span class="tr-label">Est. Settlement</span>
+      <span class="tr-value">~2.4 hours</span>
+    </div>
+    <div class="transfer-row">
+      <span class="tr-label">Legacy Equivalent</span>
+      <span class="tr-value" style="color:var(--red); text-decoration:line-through;">6-8 weeks</span>
+    </div>
+    <div class="transfer-row" style="padding-top:12px; border-top:1px solid var(--border); margin-top:6px;">
+      <span class="tr-label">Ledger Interactions</span>
+      <span class="tr-value mono" style="color:var(--green);">1 (single DLT)</span>
+    </div>
+    <div class="transfer-row">
+      <span class="tr-label">Legacy Interactions</span>
+      <span class="tr-value mono" style="color:var(--red);">5-7 (multi-ledger)</span>
+    </div>
+  </div>
+
+  <button class="sheet-btn" onclick="simulateTransfer()">
+    Initiate BTA Transfer
+  </button>
+</div>
+```
+
+  </div>
+
+  <!-- ==================== PROFILE PAGE ==================== -->
+
+  <div class="page" id="page-profile">
+    <header class="header">
+      <div class="header-left">
+        <h1>My <span>Profile</span></h1>
+        <p>Account & DLT Identity</p>
+      </div>
+    </header>
+
+```
+<div class="section">
+  <div class="profile-header">
+    <div class="profile-avatar">BK</div>
+    <div class="profile-name">Pension Holder</div>
+    <div class="profile-id">DLT ID: 0x8f3a…29d1 · Node: N03</div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-group-title">Personal Information</div>
+    <div class="settings-item" onclick="openUpdateSheet()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="si-text">Update Personal Details</span>
+      <span class="si-chevron">›</span>
+    </div>
+    <div class="settings-item" onclick="showToast('📍', 'Address verified on-chain')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span class="si-text">Address on Ledger</span>
+      <span class="si-chevron">›</span>
+    </div>
+    <div class="settings-item" onclick="showToast('💍', 'Life events log opened')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="si-text">Life Events (Marriage, etc.)</span>
+      <span class="si-chevron">›</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-group-title">Security & Identity</div>
+    <div class="settings-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span class="si-text">DLT Identity Verification</span>
+      <span class="si-chevron">›</span>
+    </div>
+    <div class="settings-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span class="si-text">Privacy & Data Sharing</span>
+      <span class="si-chevron">›</span>
+    </div>
+    <div class="settings-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      <span class="si-text">Connected Employers</span>
+      <span class="si-chevron">›</span>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-group-title">About</div>
+    <div class="settings-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span class="si-text">About PensionDLT</span>
+      <span class="si-chevron">›</span>
+    </div>
+    <div class="settings-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span class="si-text">Thesis: DLT for Pensions</span>
+      <span class="si-chevron">›</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ===== Bottom Navigation ===== -->
+
+<nav class="bottom-nav">
+  <div class="nav-item active" onclick="navigateTo('dashboard')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+    <span>Home</span>
+  </div>
+  <div class="nav-item" onclick="navigateTo('blockchain')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><path d="M1 10h22"/></svg>
+    <span>Network</span>
+  </div>
+  <div class="nav-item" onclick="navigateTo('transfer')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17l-4-4 4-4"/><path d="M3 13h13M17 7l4 4-4 4"/><path d="M21 11H8"/></svg>
+    <span>Transfer</span>
+  </div>
+  <div class="nav-item" onclick="navigateTo('profile')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </div>
+</nav>
+
+<!-- ===== Sheet Overlay ===== -->
+
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+
+<!-- Layer Info Sheet -->
+
+<div class="sheet" id="layerSheet">
+  <div class="sheet-handle"></div>
+  <h2 id="layerTitle">GUI Layer</h2>
+  <p class="subtitle" id="layerDesc">Description</p>
+  <div id="layerContent"></div>
+</div>
+
+<!-- Transfer Sheet -->
+
+<div class="sheet" id="transferSheet">
+  <div class="sheet-handle"></div>
+  <h2>Initiate Transfer</h2>
+  <p class="subtitle">Transfer pension holdings between plans using the Blockchain Transfer Agency (BTA). Settlements happen in hours, not weeks.</p>
+  <div class="sheet-field">
+    <label>Source Plan</label>
+    <select>
+      <option>Allianz GmbH — €67,430</option>
+      <option>Private Pension — €32,200</option>
+    </select>
+  </div>
+  <div class="sheet-field">
+    <label>Destination Plan</label>
+    <select>
+      <option>Siemens AG — DC Plan</option>
+      <option>New External Plan</option>
+    </select>
+  </div>
+  <div class="sheet-field">
+    <label>Amount</label>
+    <input type="text" value="€67,430.00" placeholder="Enter amount">
+  </div>
+  <button class="sheet-btn" onclick="simulateTransfer()">Submit to BTA Ledger</button>
+</div>
+
+<!-- Update Sheet -->
+
+<div class="sheet" id="updateSheet">
+  <div class="sheet-handle"></div>
+  <h2>Update Information</h2>
+  <p class="subtitle">Changes are propagated to all nodes on the blockchain. Updates are immutably recorded for audit purposes.</p>
+  <div class="sheet-field">
+    <label>Full Name</label>
+    <input type="text" placeholder="Enter full name">
+  </div>
+  <div class="sheet-field">
+    <label>Address</label>
+    <input type="text" placeholder="Street, City, Postal Code">
+  </div>
+  <div class="sheet-field">
+    <label>Life Event</label>
+    <select>
+      <option value="">Select if applicable...</option>
+      <option>Marriage</option>
+      <option>Divorce</option>
+      <option>Birth of Child</option>
+      <option>Retirement</option>
+      <option>Employer Change</option>
+    </select>
+  </div>
+  <button class="sheet-btn" onclick="simulateUpdate()">Propagate to Network</button>
+</div>
+
+<!-- Toast -->
+
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✓</span>
+  <span id="toastText">Success</span>
+</div>
+
+<script>
+// Navigation
+function navigateTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Sheet management
+function openSheet(id) {
+  document.getElementById('sheetOverlay').classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('active');
+  document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+}
+
+function openTransferSheet() { openSheet('transferSheet'); }
+function openUpdateSheet() { openSheet('updateSheet'); }
+
+// Layer info
+const layerData = {
+  gui: {
+    title: 'GUI — Graphical User Interface',
+    desc: 'The pension holder\'s window into the DLT system. An outward-facing, login-capable solution providing real-time access to pension data — even for retirees or those no longer with a contributing employer.',
+    content: `<div class="pension-list">
+      <div class="pension-item"><div class="pension-icon employer">👤</div><div class="pension-info"><div class="name">Pension Holder Access</div><div class="type">View balances, history, projections</div></div></div>
+      <div class="pension-item"><div class="pension-icon prev">✏️</div><div class="pension-info"><div class="name">Self-Service Updates</div><div class="type">Address, life events, beneficiaries</div></div></div>
+      <div class="pension-item"><div class="pension-icon private">🔗</div><div class="pension-info"><div class="name">Web 2.0 / Web 3.0 Ready</div><div class="type">Flexible deployment options</div></div></div>
+    </div>`
+  },
+  bpl: {
+    title: 'BPL — Blockchain Platform',
+    desc: 'The technological backbone powering the system. Connects corporates, auditors, regulators and all stakeholders through a decentralised ledger with a minimum of 15 nodes for operational integrity.',
+    content: `<div class="pension-list">
+      <div class="pension-item"><div class="pension-icon employer">🔗</div><div class="pension-info"><div class="name">Decentralised Ledger</div><div class="type">Single source of truth for all parties</div></div></div>
+      <div class="pension-item"><div class="pension-icon prev">🏢</div><div class="pension-info"><div class="name">Multi-Stakeholder Access</div><div class="type">Corporates, auditors, regulators</div></div></div>
+      <div class="pension-item"><div class="pension-icon private">📊</div><div class="pension-info"><div class="name">Data Transparency</div><div class="type">Aggregation on singular ledger</div></div></div>
+    </div>`
+  },
+  bta: {
+    title: 'BTA — Blockchain Transfer Agency',
+    desc: 'The final pillar enabling transparent fund transfers via single shared ledgers. Dramatically reduces transaction complexity from 5-7 ledger interactions to just 1, settling in hours instead of weeks.',
+    content: `<div class="pension-list">
+      <div class="pension-item"><div class="pension-icon employer">⚡</div><div class="pension-info"><div class="name">Single Ledger Settlement</div><div class="type">1 interaction vs. 5-7 legacy</div></div></div>
+      <div class="pension-item"><div class="pension-icon prev">⏱️</div><div class="pension-info"><div class="name">Hours, Not Weeks</div><div class="type">~2.4 hrs avg. settlement time</div></div></div>
+      <div class="pension-item"><div class="pension-icon private">🔍</div><div class="pension-info"><div class="name">Full Transparency</div><div class="type">Real-time transfer tracking</div></div></div>
+    </div>`
+  }
+};
+
+function showLayerSheet(layer) {
+  const data = layerData[layer];
+  document.getElementById('layerTitle').textContent = data.title;
+  document.getElementById('layerDesc').textContent = data.desc;
+  document.getElementById('layerContent').innerHTML = data.content;
+  openSheet('layerSheet');
+}
+
+function showHoldingSheet(index) {
+  showToast('📊', 'Detailed holding view coming soon');
+}
+
+// Toast
+function showToast(icon, text) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastText').textContent = text;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Simulate transfer
+function simulateTransfer() {
+  closeSheet();
+  showToast('⚡', 'Transfer submitted to BTA — est. 2.4 hrs');
+}
+
+// Simulate update
+function simulateUpdate() {
+  closeSheet();
+  showToast('✅', 'Update propagated to 15 nodes');
+}
+
+// Transfer page preview
+function updateTransferPreview() {
+  // Mockup — just for interaction feel
+}
+</script>
+
+</body>
+</html>
