@@ -184,8 +184,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 .sheet.open{bottom:0;pointer-events:all;opacity:1}.sheet-bar{width:32px;height:3px;background:#334155;border-radius:2px;margin:0 auto 14px}
 .sheet h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
 .sheet .sub{font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.5}
-.toast{position:fixed;top:calc(constant(safe-area-inset-top,54px)+12px);top:calc(env(safe-area-inset-top,54px)+12px);left:16px;right:16px;padding:12px 14px;background:rgba(30,41,59,.95);border:1px solid rgba(52,211,153,.25);border-radius:12px;display:flex;align-items:center;gap:8px;z-index:20000;font-size:12px;font-weight:600;color:#e2e8f0;opacity:0;pointer-events:none;transform:translateY(-20px);transition:opacity .3s,transform .3s}
-.toast.show{opacity:1;pointer-events:all;transform:translateY(0)}
+.toast{position:fixed;top:-200px;left:16px;right:16px;padding:12px 14px;background:rgba(30,41,59,.97);border:1px solid rgba(52,211,153,.3);border-radius:12px;display:flex;align-items:center;gap:8px;z-index:20000;font-size:12px;font-weight:600;color:#e2e8f0}
 /* RETIRE */
 .retire-intro{margin:0 16px 14px;padding:16px;background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(96,165,250,.04));border:1px solid rgba(52,211,153,.15);border-radius:16px}
 .retire-intro .ri-head{font-size:13px;font-weight:700;color:#34d399;margin-bottom:6px;display:flex;align-items:center;gap:6px}
@@ -430,7 +429,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 function go(p){var pgs=document.querySelectorAll('.page');for(var i=0;i<pgs.length;i++)pgs[i].classList.remove('active');var el=document.getElementById('pg-'+p);if(el)el.classList.add('active');var navs=document.querySelectorAll('.bnav-item');for(var i=0;i<navs.length;i++){if(navs[i].getAttribute('data-p')===p)navs[i].classList.add('on');else navs[i].classList.remove('on')}window.scrollTo(0,0);if(p==='activity')renderFullTx()}
 function openSheet(id){document.getElementById('ov').classList.add('open');document.getElementById('sh-'+id).classList.add('open')}
 function closeSheet(){document.getElementById('ov').classList.remove('open');var s=document.querySelectorAll('.sheet');for(var i=0;i<s.length;i++)s[i].classList.remove('open')}
-var ttt=null;function toast(ic,t){var el=document.getElementById('toastEl');document.getElementById('toastI').textContent=ic;document.getElementById('toastT').textContent=t;el.classList.add('show');if(ttt)clearTimeout(ttt);ttt=setTimeout(function(){el.classList.remove('show')},2500)}
+var ttt=null;function toast(ic,t){var el=document.getElementById('toastEl');document.getElementById('toastI').textContent=ic;document.getElementById('toastT').textContent=t;el.style.top='56px';if(ttt)clearTimeout(ttt);ttt=setTimeout(function(){el.style.top='-200px'},2500)}
 function dismissSplash(){document.getElementById('splash').classList.add('hide');setTimeout(function(){document.getElementById('splash').style.display='none';initChart()},600)}
 
 /* COLLAPSIBLE */
