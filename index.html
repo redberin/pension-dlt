@@ -229,6 +229,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 .ag-note{font-size:10px;color:#64748b;margin-top:8px;line-height:1.4}
 .disclaimer{font-size:10px;color:#3b4a63;margin-top:12px;line-height:1.5;padding:10px;background:rgba(251,146,60,.03);border:1px solid rgba(251,146,60,.1);border-radius:8px}
 /* THESIS */
+/* HAMBURGER DRAWER */
+.drawer{position:fixed;top:0;right:-280px;width:280px;height:100%;background:#131b2e;border-left:1px solid rgba(51,65,85,.5);z-index:10002;transition:right .3s ease;padding:0;overflow-y:auto}
+.drawer.open{right:0}
+.drawer-hdr{padding:20px 16px 14px;padding-top:calc(constant(safe-area-inset-top,44px)+16px);padding-top:calc(env(safe-area-inset-top,44px)+16px);border-bottom:1px solid rgba(51,65,85,.4);display:flex;justify-content:space-between;align-items:center}
+.drawer-hdr h3{font-size:16px;font-weight:700;color:#fff}
+.drawer-close{width:32px;height:32px;border-radius:8px;background:rgba(51,65,85,.4);border:none;color:#94a3b8;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.drawer-sec{padding:14px 16px 6px}
+.drawer-sec-title{font-size:9px;color:#3b4a63;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.drawer-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(51,65,85,.25);cursor:pointer}
+.drawer-item:last-child{border-bottom:none}
+.drawer-item:active{opacity:.7}
+.drawer-item .di-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.drawer-item .di-icon.blue{background:rgba(96,165,250,.12)}.drawer-item .di-icon.green{background:rgba(52,211,153,.12)}.drawer-item .di-icon.purple{background:rgba(139,92,246,.12)}.drawer-item .di-icon.orange{background:rgba(251,146,60,.12)}.drawer-item .di-icon.red{background:rgba(248,113,113,.12)}
+.drawer-item .di-text{flex:1}.drawer-item .di-text .dt{font-size:13px;font-weight:600;color:#e2e8f0}.drawer-item .di-text .dd{font-size:10px;color:#475569;margin-top:1px}
+.drawer-badge{min-width:18px;height:18px;border-radius:9px;background:rgba(248,113,113,.2);color:#f87171;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;flex-shrink:0}
+/* IDENTITY PAGE */
+.id-card{margin:0 16px 14px;padding:20px;background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(139,92,246,.06));border:1px solid rgba(96,165,250,.15);border-radius:18px;text-align:center}
+.id-card .id-hex{font-size:48px;margin-bottom:8px}
+.id-addr{font-family:monospace;font-size:11px;color:#60a5fa;background:rgba(96,165,250,.08);padding:8px 12px;border-radius:8px;word-break:break-all;margin:8px 0 4px}
+.id-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(51,65,85,.25);font-size:12px}
+.id-row:last-child{border-bottom:none}
+.id-row .ir-l{color:#64748b}.id-row .ir-v{font-weight:600;color:#e2e8f0;font-variant-numeric:tabular-nums;text-align:right;max-width:55%;word-break:break-all}
+.id-section{margin:0 16px 14px;padding:16px;background:rgba(30,41,59,.5);border:1px solid rgba(51,65,85,.4);border-radius:14px}
+.id-section .ids-title{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+/* PRIVACY PAGE */
+.priv-toggle{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.25)}
+.priv-toggle:last-child{border-bottom:none}
+.priv-toggle .pt-info{flex:1}.priv-toggle .pt-info .pt-name{font-size:13px;font-weight:600;color:#e2e8f0}.priv-toggle .pt-info .pt-desc{font-size:10px;color:#475569;margin-top:2px;line-height:1.4}
+.toggle-sw{width:44px;height:26px;border-radius:13px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.toggle-sw.on{background:#34d399}.toggle-sw.off{background:#475569}
+.toggle-sw::after{content:'';position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s}
+.toggle-sw.on::after{left:21px}.toggle-sw.off::after{left:3px}
 .thesis-hero{margin:0 16px 14px;padding:20px;background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(139,92,246,.06));border:1px solid rgba(96,165,250,.15);border-radius:18px;text-align:center}
 .thesis-hero .th-book{font-size:48px;margin-bottom:8px}.thesis-hero .th-title{font-size:16px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:4px}
 .thesis-hero .th-author{font-size:12px;color:#94a3b8;margin-bottom:4px}.thesis-hero .th-pub{font-size:11px;color:#64748b}
@@ -253,7 +285,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 <div class="app">
 <!-- HOME -->
 <div class="page active" id="pg-home">
-<div class="hdr"><div><h1>Pension<b>DLT</b></h1><p>Decentralized Pension Admin</p></div><div class="hdr-r"><div class="hdr-btn" onclick="toast('🔔','No new notifications')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar">BK</div></div></div>
+<div class="hdr"><div><h1>Pension<b>DLT</b></h1><p>Decentralized Pension Admin</p></div><div class="hdr-r"><div class="hdr-btn" onclick="toast('🔔','No new notifications')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="avatar" onclick="toggleDrawer()">BK</div></div></div>
 <div class="chain-ticker"><div class="pulse"></div><div class="chain-blocks" id="chainBlocks"></div><div class="chain-meta">1.2s avg</div></div>
 <div class="card">
   <div class="port-label">Total Pension Portfolio</div>
@@ -353,8 +385,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 <div class="si" onclick="openSheet('upd')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="st">Update Details</span><span class="sc">›</span></div>
 <div class="si" onclick="toast('📍','Verified on-chain')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="st">Address on Ledger</span><span class="sc">›</span></div>
 <div class="si" onclick="openSheet('lifeevt')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="st">Life Events</span><span class="sc">›</span></div></div>
-<div class="sg"><div class="sg-title">Security</div><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="st">DLT Identity</span><span class="sc">›</span></div><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="st">Privacy & Data</span><span class="sc">›</span></div></div>
-<div class="sg"><div class="sg-title">About</div><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span class="st">About PensionDLT</span><span class="sc">›</span></div><div class="si" onclick="go('thesis')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="st">Thesis · Springer</span><span class="sc">›</span></div></div>
+<div class="sg"><div class="sg-title">Security</div><div class="si" onclick="go('identity')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="st">DLT Identity</span><span class="sc">›</span></div><div class="si" onclick="go('privacy')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="st">Privacy & Data</span><span class="sc">›</span></div></div>
+<div class="sg"><div class="sg-title">About</div><div class="si" onclick="go('about')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span class="st">About PensionDLT</span><span class="sc">›</span></div><div class="si" onclick="go('thesis')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="st">Thesis · Springer</span><span class="sc">›</span></div></div>
 </div></div>
 
 <!-- THESIS -->
@@ -381,10 +413,139 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 <div class="filter-bar" id="filterBar"><div class="filter-chip active" onclick="filterTx(this,'all')">All</div><div class="filter-chip" onclick="filterTx(this,'contrib')">Contributions</div><div class="filter-chip" onclick="filterTx(this,'transfer')">Transfers</div><div class="filter-chip" onclick="filterTx(this,'update')">Updates</div><div class="filter-chip" onclick="filterTx(this,'match')">Matches</div></div>
 <div id="txFullList"></div>
 </div></div>
+
+<!-- DLT IDENTITY -->
+
+<div class="page" id="pg-identity">
+<div class="hdr"><div><h1>DLT <b>Identity</b></h1><p>Ethereum-Style Wallet</p></div><div class="hdr-r"><div class="hdr-btn" onclick="go('prof')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div></div></div>
+<div class="id-card">
+  <div class="id-hex">🔐</div>
+  <div style="font-size:16px;font-weight:800;color:#fff">Pension Holder Wallet</div>
+  <div class="id-addr">0x8f3a7B2c9E41d6F058Ae3C1b4D09f2E7a829d1C5</div>
+  <div style="font-size:10px;color:#475569">Tap to copy address</div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Wallet Details</div>
+  <div class="id-row"><span class="ir-l">Network</span><span class="ir-v">PensionDLT Mainnet</span></div>
+  <div class="id-row"><span class="ir-l">Chain ID</span><span class="ir-v">8591</span></div>
+  <div class="id-row"><span class="ir-l">Account Type</span><span class="ir-v">Externally Owned (EOA)</span></div>
+  <div class="id-row"><span class="ir-l">Public Key</span><span class="ir-v" style="font-family:monospace;font-size:10px">0x04a1b2...f8e9d3</span></div>
+  <div class="id-row"><span class="ir-l">Nonce</span><span class="ir-v">847</span></div>
+  <div class="id-row"><span class="ir-l">Created</span><span class="ir-v">Block #1,204,331</span></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">On-Chain Credentials</div>
+  <div class="id-row"><span class="ir-l">KYC Status</span><span class="ir-v" style="color:#34d399">✓ Verified</span></div>
+  <div class="id-row"><span class="ir-l">Identity Provider</span><span class="ir-v">BaFin eID</span></div>
+  <div class="id-row"><span class="ir-l">Credential Hash</span><span class="ir-v" style="font-family:monospace;font-size:10px">0x7c4e...b2a1</span></div>
+  <div class="id-row"><span class="ir-l">Issued</span><span class="ir-v">2024-03-15</span></div>
+  <div class="id-row"><span class="ir-l">Expires</span><span class="ir-v">2029-03-15</span></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Node Assignment</div>
+  <div class="id-row"><span class="ir-l">Primary Node</span><span class="ir-v">N03 — Corporate</span></div>
+  <div class="id-row"><span class="ir-l">Node IP</span><span class="ir-v" style="font-family:monospace">10.0.0.51:4004</span></div>
+  <div class="id-row"><span class="ir-l">Stake Weight</span><span class="ir-v">Standard</span></div>
+  <div class="id-row"><span class="ir-l">Permissions</span><span class="ir-v">Read / Write (Self)</span></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Transaction Summary</div>
+  <div class="id-row"><span class="ir-l">Total Transactions</span><span class="ir-v">847</span></div>
+  <div class="id-row"><span class="ir-l">Contributions</span><span class="ir-v">624</span></div>
+  <div class="id-row"><span class="ir-l">Transfers</span><span class="ir-v">12</span></div>
+  <div class="id-row"><span class="ir-l">Updates</span><span class="ir-v">211</span></div>
+  <div class="id-row"><span class="ir-l">Gas Used</span><span class="ir-v">0 (feeless)</span></div>
+</div>
 </div>
 
-<!-- NAV -->
+<!-- PRIVACY & DATA -->
 
+<div class="page" id="pg-privacy">
+<div class="hdr"><div><h1>Privacy <b>& Data</b></h1><p>Data Protection Settings</p></div><div class="hdr-r"><div class="hdr-btn" onclick="go('prof')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div></div></div>
+<div class="id-section">
+  <div class="ids-title">Data Visibility</div>
+  <div class="priv-toggle"><div class="pt-info"><div class="pt-name">Employer View Access</div><div class="pt-desc">Allow current employer to view contribution history</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div></div>
+  <div class="priv-toggle"><div class="pt-info"><div class="pt-name">Auditor Read Access</div><div class="pt-desc">Grant auditors anonymised transaction data</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div></div>
+  <div class="priv-toggle"><div class="pt-info"><div class="pt-name">Regulator Compliance</div><div class="pt-desc">BaFin regulatory reporting (required)</div></div><div class="toggle-sw on" style="opacity:.5"></div></div>
+  <div class="priv-toggle"><div class="pt-info"><div class="pt-name">Cross-Border Sharing</div><div class="pt-desc">Share data with foreign pension authorities under SSA</div></div><div class="toggle-sw off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Encryption & Storage</div>
+  <div class="id-row"><span class="ir-l">Encryption</span><span class="ir-v" style="color:#34d399">AES-256-GCM</span></div>
+  <div class="id-row"><span class="ir-l">Key Management</span><span class="ir-v">HSM Protected</span></div>
+  <div class="id-row"><span class="ir-l">Data Residency</span><span class="ir-v">EU (Frankfurt)</span></div>
+  <div class="id-row"><span class="ir-l">GDPR Status</span><span class="ir-v" style="color:#34d399">Compliant</span></div>
+  <div class="id-row"><span class="ir-l">Right to Erasure</span><span class="ir-v">Off-chain only*</span></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Consent Log</div>
+  <div class="id-row"><span class="ir-l">Terms Accepted</span><span class="ir-v">2024-03-15</span></div>
+  <div class="id-row"><span class="ir-l">Privacy Policy</span><span class="ir-v">v2.4 — 2025-01-10</span></div>
+  <div class="id-row"><span class="ir-l">Data Processing</span><span class="ir-v" style="color:#34d399">Consented</span></div>
+  <div class="id-row"><span class="ir-l">Analytics</span><span class="ir-v" style="color:#f87171">Declined</span></div>
+</div>
+<div style="margin:0 16px;padding:12px;background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.12);border-radius:10px;font-size:10px;color:#64748b;line-height:1.5">* On-chain transaction hashes are immutable per DLT design. Personal data stored off-chain can be erased per GDPR Art. 17. Contact your data controller for erasure requests.</div>
+</div>
+
+<!-- ABOUT -->
+
+<div class="page" id="pg-about">
+<div class="hdr"><div><h1>About <b>PensionDLT</b></h1><p>Application Info</p></div><div class="hdr-r"><div class="hdr-btn" onclick="go('prof')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div></div></div>
+<div class="id-card">
+  <div class="id-hex">🔗</div>
+  <div style="font-size:20px;font-weight:800;color:#fff">Pension<span style="color:#60a5fa">DLT</span></div>
+  <div style="font-size:11px;color:#64748b;margin-top:4px">Version 1.0.0 · Build 2026.02</div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Application</div>
+  <div class="id-row"><span class="ir-l">Platform</span><span class="ir-v">Web 2.0 / Web 3.0</span></div>
+  <div class="id-row"><span class="ir-l">Blockchain</span><span class="ir-v">PensionDLT Mainnet</span></div>
+  <div class="id-row"><span class="ir-l">Consensus</span><span class="ir-v">PoA (Proof of Authority)</span></div>
+  <div class="id-row"><span class="ir-l">Nodes</span><span class="ir-v">15 (min. required)</span></div>
+  <div class="id-row"><span class="ir-l">Block Time</span><span class="ir-v">~1.2 seconds</span></div>
+  <div class="id-row"><span class="ir-l">License</span><span class="ir-v">Proprietary</span></div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Research Conclusion</div>
+  <div style="font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:10px">This thesis demonstrates that distributed ledger technology can fundamentally transform pension administration by addressing systemic inefficiencies in legacy systems.</div>
+  <div style="font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:10px">The triumvirate architecture (GUI, BPL, BTA) reduces end-to-end pension transfer settlement from <strong style="color:#f87171">6-8 weeks</strong> to <strong style="color:#34d399">approximately 2.4 hours</strong> — a 98.5% improvement — by collapsing 5-7 legacy ledger interactions into a single shared DLT ledger.</div>
+  <div style="font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:10px">Grounded in Socio-Technical Systems theory, the research proves that pension systems are open systems requiring joint optimization of social and technical components. The BPL connects all stakeholders — pension holders, employers, auditors, regulators, and fund managers — through a single immutable source of truth.</div>
+  <div style="font-size:12px;color:#94a3b8;line-height:1.6">The GUI empowers pension holders with 24/7 self-service access for the first time, while the BTA enables zero-fee cross-border transfers leveraging bilateral social security agreements and EU Regulation 883/2004. The system is designed for large-scale adoption across jurisdictions, supporting mobile workers in an increasingly global labour market.</div>
+</div>
+<div class="id-section">
+  <div class="ids-title">Contact</div>
+  <div class="id-row"><span class="ir-l">Publisher</span><span class="ir-v">Springer Nature</span></div>
+  <div class="id-row"><span class="ir-l">ISBN</span><span class="ir-v">978-3-658-48591-7</span></div>
+  <div class="id-row"><span class="ir-l">Support</span><span class="ir-v">support@pensiondlt.io</span></div>
+</div>
+</div>
+
+</div>
+
+<!-- HAMBURGER DRAWER -->
+
+<div class="overlay" id="drawerOv" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-hdr"><h3>Quick Menu</h3><button class="drawer-close" onclick="closeDrawer()">✕</button></div>
+  <div class="drawer-sec">
+    <div class="drawer-sec-title">Tasks</div>
+    <div class="drawer-item" onclick="closeDrawer();toast('📋','Review pending beneficiary update')"><div class="di-icon orange">📋</div><div class="di-text"><div class="dt">Pending Review</div><div class="dd">Beneficiary update awaiting approval</div></div><div class="drawer-badge">1</div></div>
+    <div class="drawer-item" onclick="closeDrawer();toast('📄','Q4 statement ready')"><div class="di-icon blue">📄</div><div class="di-text"><div class="dt">Q4 Statement Ready</div><div class="dd">Download your quarterly pension statement</div></div></div>
+    <div class="drawer-item" onclick="closeDrawer();toast('🔔','Contribution due Feb 28')"><div class="di-icon green">💰</div><div class="di-text"><div class="dt">Contribution Due</div><div class="dd">Monthly contribution due Feb 28, 2026</div></div></div>
+  </div>
+  <div class="drawer-sec">
+    <div class="drawer-sec-title">Quick Actions</div>
+    <div class="drawer-item" onclick="closeDrawer();go('xfer')"><div class="di-icon blue">↔️</div><div class="di-text"><div class="dt">New Transfer</div><div class="dd">Initiate BTA transfer</div></div></div>
+    <div class="drawer-item" onclick="closeDrawer();go('retire')"><div class="di-icon green">🌐</div><div class="di-text"><div class="dt">Retire Planner</div><div class="dd">Cross-border optimizer</div></div></div>
+    <div class="drawer-item" onclick="closeDrawer();openSheet('lifeevt')"><div class="di-icon purple">💍</div><div class="di-text"><div class="dt">Record Life Event</div><div class="dd">Marriage, retirement, relocation…</div></div></div>
+    <div class="drawer-item" onclick="closeDrawer();go('activity')"><div class="di-icon blue">📊</div><div class="di-text"><div class="dt">Full Audit Trail</div><div class="dd">Complete DLT transaction history</div></div></div>
+  </div>
+  <div class="drawer-sec">
+    <div class="drawer-sec-title">Account</div>
+    <div class="drawer-item" onclick="closeDrawer();go('prof')"><div class="di-icon purple">👤</div><div class="di-text"><div class="dt">My Profile</div><div class="dd">Identity, settings, preferences</div></div></div>
+    <div class="drawer-item" onclick="closeDrawer();go('identity')"><div class="di-icon blue">🔐</div><div class="di-text"><div class="dt">DLT Wallet</div><div class="dd">0x8f3a…29d1</div></div></div>
+  </div>
+</div>
 <nav class="bnav">
 <div class="bnav-item on" data-p="home" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Home</span></div>
 <div class="bnav-item" data-p="net" onclick="go('net')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg><span>Network</span></div>
@@ -431,6 +592,10 @@ function openSheet(id){document.getElementById('ov').classList.add('open');docum
 function closeSheet(){document.getElementById('ov').classList.remove('open');var s=document.querySelectorAll('.sheet');for(var i=0;i<s.length;i++)s[i].classList.remove('open')}
 var ttt=null;function toast(ic,t){var el=document.getElementById('toastEl');document.getElementById('toastI').textContent=ic;document.getElementById('toastT').textContent=t;el.style.top='56px';if(ttt)clearTimeout(ttt);ttt=setTimeout(function(){el.style.top='-200px'},2500)}
 function dismissSplash(){document.getElementById('splash').classList.add('hide');setTimeout(function(){document.getElementById('splash').style.display='none';initChart()},600)}
+
+/* DRAWER */
+function toggleDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawerOv').classList.add('open')}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOv').classList.remove('open')}
 
 /* COLLAPSIBLE */
 function toggleCollapse(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open')}
